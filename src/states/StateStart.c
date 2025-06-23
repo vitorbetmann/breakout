@@ -1,33 +1,31 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "../smile_engine/include/smile.h"
-#include "Constants.h"
-#include "raylib.h"
 #include "states/StateStart.h"
-
-// --------------------------------------------------
-// Defines
-// --------------------------------------------------
+#include "_Constants.h"
+#include "raylib.h"
+#include "smile.h"
+#include "states/StatePlay.h"
 
 // --------------------------------------------------
 // Data types
 // --------------------------------------------------
-
-// --------------------------------------------------
-// Prototypes
-// --------------------------------------------------
+typedef enum {
+  START,
+  HIGH_SCORE,
+} Options;
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-State stateStart = {.id = "state_start",
+static int highlighted = START;
+
+State stateStart = {.id = "start",
                     .enter = NULL,
                     .update = state_start_update,
                     .draw = state_start_draw,
-                    .exit = state_start_exit};
+                    .exit = NULL};
 
-static int highlighted = 0;
 extern Sound gPaddleHit;
 extern Font gFont;
 
@@ -39,6 +37,17 @@ void state_start_update(float dt) {
     highlighted++;
     highlighted %= 2;
     PlaySound(gPaddleHit);
+  }
+
+  if (IsKeyPressed(KEY_ENTER)) {
+    switch ((Options)highlighted) {
+    case START:
+      sm_change_state(&statePlay, NULL);
+      break;
+    case HIGH_SCORE:
+      // TODO handle this later
+      break;
+    }
   }
 }
 
@@ -71,8 +80,4 @@ void state_start_draw(void) {
   textPos.y = VIRTUAL_HEIGHT / 2.0 + 90;
   DrawTextEx(gFont, OPTION_HIGH_SCORES, textPos, FONT_MEDIUM, 0,
              highScoresColor);
-}
-
-void state_start_exit(void) {
-  // TODO
 }

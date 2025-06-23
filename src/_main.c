@@ -40,6 +40,8 @@ Music gMusic;
 
 float dt;
 
+QuadNode *gFrames;
+
 // --------------------------------------------------
 // Program main entry point
 // --------------------------------------------------
@@ -71,6 +73,8 @@ void Init(void) {
   LoadFonts();
   LoadTextures();
   LoadSounds();
+
+  gFrames = GenerateQuadsPaddles(gMain);
 }
 
 void LoadFonts(void) { gFont = LoadFont("./assets/fonts/font.ttf"); }

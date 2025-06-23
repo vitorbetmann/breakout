@@ -1,8 +1,9 @@
-#ifndef EXAMPLE_HEADER_H
-#define EXAMPLE_HEADER_H
+#ifndef STATE_PLAY_H
+#define STATE_PLAY_H
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
+#include "smile.h"
 
 // --------------------------------------------------
 // Other defines
@@ -15,9 +16,14 @@
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
+void state_play_enter(void *args);
+void state_play_update(float dt);
+void state_play_draw(void);
+void state_play_exit(void);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
+extern State statePlay;
 
 #endif
