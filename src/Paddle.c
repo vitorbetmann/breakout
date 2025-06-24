@@ -20,11 +20,12 @@
 // Prototypes
 // --------------------------------------------------
 int SetIndex(int skin, int width);
+void PaddleUpdateHitBox(void);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-static Paddle paddle;
+Paddle paddle;
 
 // --------------------------------------------------
 // Functions
@@ -37,6 +38,8 @@ void PaddleInit(void) {
   paddle.pos.y = VIRTUAL_HEIGHT - STARTING_Y;
   paddle.index = SetIndex(paddle.skin, paddle.width);
   paddle.textureRect = GetPaddleQuad(paddle);
+  paddle.texture = TableGet(gTextures, "main");
+  PaddleUpdateHitBox();
 }
 
 int SetIndex(int skin, int width) {
@@ -57,11 +60,16 @@ void PaddleUpdate(float dt) {
 
   paddle.pos.x += paddle.dx * dt;
   paddle.pos.x = Clamp(paddle.pos.x, 0, VIRTUAL_WIDTH - paddle.width);
+  PaddleUpdateHitBox();
+}
+
+void PaddleUpdateHitBox(void) {
+  paddle.hitBox =
+      (Rectangle){paddle.pos.x, paddle.pos.y, paddle.width, paddle.height};
 }
 
 void PaddleDraw() {
   Rectangle dest = {paddle.pos.x, paddle.pos.y, paddle.width, paddle.height};
-  Texture2D *texture = (Texture2D *)TableGet(gTextures, "main");
-  DrawTexturePro(*texture, *paddle.textureRect, dest, (Vector2){0, 0}, 0,
+  DrawTexturePro(*paddle.texture, *paddle.textureRect, dest, (Vector2){0, 0}, 0,
                  WHITE);
 }

@@ -3,6 +3,7 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
+#include "Ball.h"
 #include "Paddle.h"
 #include "raylib.h"
 
@@ -40,6 +41,7 @@ typedef struct AssetNodeStruct {
 void *GenerateQuadsPaddles(Texture2D atlas);
 void *GenerateQuadsBalls(Texture2D atlas);
 Rectangle *GetPaddleQuad(Paddle paddle);
+Rectangle *GetBallQuad(Ball ball);
 
 void SoundsAdd(char *key, Sound value);
 Sound *SoundsGet(char *key);

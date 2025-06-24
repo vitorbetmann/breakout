@@ -26,15 +26,17 @@ typedef enum {
   P_GREEN = 0b0010,
   P_RED = 0b0100,
   P_PURPLE = 0b1000
-} Skin;
+} PaddleColor;
 
 typedef struct {
   Rectangle *textureRect;
+  Texture2D *texture;
   Vector2 pos;
   float dx;
   int skin;
   int width, height;
   int index;
+  Rectangle hitBox;
 } Paddle;
 
 // --------------------------------------------------
@@ -47,5 +49,6 @@ void PaddleDraw(void);
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
+extern Paddle paddle;
 
 #endif

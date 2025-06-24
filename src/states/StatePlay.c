@@ -2,7 +2,11 @@
 // Includes
 // --------------------------------------------------
 #include "states/StatePlay.h"
+#include "Ball.h"
 #include "Paddle.h"
+#include "_Constants.h"
+#include "_Util.h"
+#include "raylib.h"
 #include "smile.h"
 // --------------------------------------------------
 // Defines
@@ -11,10 +15,12 @@
 // --------------------------------------------------
 // Data types
 // --------------------------------------------------
+static const char *const PAUSE_TEXT = "PAUSE";
 
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
+void PauseTextDraw(void);
 
 // --------------------------------------------------
 // Variables
@@ -25,14 +31,56 @@ State statePlay = {.id = "play",
                    .draw = state_play_draw,
                    .exit = state_play_exit};
 
+static bool isPaused;
+extern Font gFont;
+extern Ball ball;
+extern Paddle paddle;
+
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
-void state_play_enter(void *args) { PaddleInit(); }
+void state_play_enter(void *args) {
+  isPaused = false;
 
-void state_play_update(float dt) { PaddleUpdate(dt); }
+  PaddleInit();
+  BallInit(GetRandomValue(0, 6));
+}
 
-void state_play_draw(void) { PaddleDraw(); }
+void state_play_update(float dt) {
+  if (IsKeyPressed(KEY_SPACE)) {
+    isPaused = !isPaused;
+
+    Sound *s = TableGet(gSounds, "pause");
+    PlaySound(*s);
+  }
+
+  if (!isPaused) {
+    PaddleUpdate(dt);
+    BallUpdate(dt);
+
+    if (CheckCollisionRecs(ball.hitBox, paddle.hitBox)) {
+      ball.dy *= -1;
+      ball.pos.y = paddle.pos.y - BALL_SIZE;
+      PlaySound(*((Sound *)TableGet(gSounds, "paddle hit")));
+    }
+  }
+}
+
+void state_play_draw(void) {
+  PaddleDraw();
+  BallDraw();
+
+  if (isPaused) {
+    PauseTextDraw();
+  }
+}
+
+void PauseTextDraw(void) {
+  Vector2 textSize = MeasureTextEx(gFont, PAUSE_TEXT, FONT_LARGE, 0);
+  Vector2 pos = {(VIRTUAL_WIDTH - textSize.x) / 2.0,
+                 (VIRTUAL_HEIGHT - textSize.y) / 2.0};
+  DrawTextPro(gFont, PAUSE_TEXT, pos, (Vector2){0, 0}, 0, FONT_LARGE, 0, WHITE);
+}
 
 void state_play_exit(void) {
   // TODO

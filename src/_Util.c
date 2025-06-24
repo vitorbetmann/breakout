@@ -94,7 +94,7 @@ void *GenerateQuadsPaddles(Texture2D atlas) {
 }
 
 void *GenerateQuadsBalls(Texture2D atlas) {
-  Vector2 origin = {.x = 0, .y = BALLS_ORIGIN_Y};
+  Vector2 origin = {.x = BALLS_ORIGIN_X, .y = BALLS_ORIGIN_Y};
 
   for (int i = 0; i < BALLS_AMOUNT_ROW_1; i++) {
     static QuadNode ball;
@@ -136,6 +136,15 @@ Rectangle *GetPaddleQuad(Paddle paddle) {
     return &temp->quad;
   }
 
+  return NULL;
+}
+
+Rectangle *GetBallQuad(Ball ball) {
+
+  QuadNode *temp = &balls[ball.skin];
+  if (temp->skin == ball.skin) {
+    return &temp->quad;
+  }
   return NULL;
 }
 

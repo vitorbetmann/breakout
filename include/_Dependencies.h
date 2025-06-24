@@ -5,6 +5,7 @@
 #include "_Util.h"
 #include "smile.h"
 #include <raylib.h>
+#include <time.h>
 
 // States
 #include "states/StatePlay.h"

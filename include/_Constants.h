@@ -26,5 +26,6 @@
 
 // Ball
 #define BALL_SIZE 8
+#define BALL_SPEED 100
 
 #endif

@@ -36,7 +36,9 @@ void state_start_update(float dt) {
   if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_DOWN)) {
     highlighted++;
     highlighted %= 2;
-    PlaySound(*((Sound *)TableGet(gSounds, "paddle hit")));
+
+    Sound *s = TableGet(gSounds, "paddle hit");
+    PlaySound(*s);
   }
 
   if (IsKeyPressed(KEY_ENTER)) {

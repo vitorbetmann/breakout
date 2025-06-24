@@ -2,9 +2,6 @@
 // Includes
 // --------------------------------------------------
 #include "_Dependencies.h"
-#include "_Util.h"
-#include "raylib.h"
-#include <stdlib.h>
 
 // --------------------------------------------------
 // Defines
@@ -23,7 +20,6 @@ void LoadTextures(void);
 void LoadAndStoreTextures(char *key, const char *path);
 void LoadSounds(void);
 void LoadAndStoreSounds(char *key, const char *path);
-
 void LoadMusic(void);
 
 void UpdateAll(float dt);
@@ -72,6 +68,8 @@ void Init(void) {
   vScreen = LoadRenderTexture(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 
   SetTargetFPS(TARGET_FPS);
+
+  SetRandomSeed(time(NULL));
 
   LoadFonts();
   LoadTextures();
@@ -132,7 +130,7 @@ void DrawToVirtualScreen(void) {
   BeginTextureMode(vScreen);
   ClearBackground(BLACK);
 
-  Texture2D *bg = (Texture2D *)TableGet(gTextures, "background");
+  Texture2D *bg = TableGet(gTextures, "background");
   Rectangle source = {0, 0, bg->width, bg->height};
   Rectangle dest = {0, 0, VIRTUAL_WIDTH + 2, VIRTUAL_HEIGHT + 2};
   DrawTexturePro(*bg, source, dest, (Vector2){0, 0}, 0, WHITE);
