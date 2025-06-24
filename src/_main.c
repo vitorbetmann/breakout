@@ -40,7 +40,7 @@ Music gMusic;
 
 float dt;
 
-QuadNode *gFrames;
+QuadNode **gFrames;
 
 // --------------------------------------------------
 // Program main entry point

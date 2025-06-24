@@ -30,9 +30,7 @@ State statePlay = {.id = "play",
 // --------------------------------------------------
 void state_play_enter(void *args) { PaddleInit(); }
 
-void state_play_update(float dt) {
-  // TODO
-}
+void state_play_update(float dt) { PaddleUpdate(dt); }
 
 void state_play_draw(void) { PaddleDraw(); }
 

@@ -9,18 +9,18 @@
 // --------------------------------------------------
 // Other defines
 // --------------------------------------------------
+#define PADDLE_SIZES 4
+#define PADDLE_COLORS 4
 
 // --------------------------------------------------
 // Data types
 // --------------------------------------------------
-typedef enum { S_BLUE, S_GREEN, S_RED, S_PURPLE } Skin;
-
 typedef enum {
-  SMALL = PADDLE_SMALL_WIDTH,
-  MEDIUM = PADDLE_MEDIUM_WIDTH,
-  LARGE = PADDLE_LARGE_WIDTH,
-  HUGE = PADDLE_HUGE_WIDTH
-} Size;
+  S_BLUE = 0b0001,
+  S_GREEN = 0b0010,
+  S_RED = 0b0100,
+  S_PURPLE = 0b1000
+} Skin;
 
 typedef struct {
   Rectangle *textureRect;

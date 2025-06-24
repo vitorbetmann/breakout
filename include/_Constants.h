@@ -15,12 +15,15 @@
 #define FONT_MEDIUM 16
 #define FONT_LARGE 32
 
-// Game
+// Text
 #define GAME_TITLE "BREAKOUT"
 #define OPTION_START "START"
 #define OPTION_HIGH_SCORES "HIGH SCORES"
 
 // Paddles
+#define PADDLE_SPEED 200
+#define STARTING_Y 32
+
 #define PADDLE_SMALL_WIDTH 32
 #define PADDLE_MEDIUM_WIDTH 64
 #define PADDLE_LARGE_WIDTH 96
