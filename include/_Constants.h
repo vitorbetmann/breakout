@@ -24,10 +24,7 @@
 #define PADDLE_SPEED 200
 #define STARTING_Y 32
 
-#define PADDLE_SMALL_WIDTH 32
-#define PADDLE_MEDIUM_WIDTH 64
-#define PADDLE_LARGE_WIDTH 96
-#define PADDLE_HUGE_WIDTH 128
-#define PADDLE_HEIGHT 16
+// Ball
+#define BALL_SIZE 8
 
 #endif

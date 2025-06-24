@@ -3,6 +3,7 @@
 // --------------------------------------------------
 #include "states/StateStart.h"
 #include "_Constants.h"
+#include "_Util.h"
 #include "raylib.h"
 #include "smile.h"
 #include "states/StatePlay.h"
@@ -26,7 +27,6 @@ State stateStart = {.id = "start",
                     .draw = state_start_draw,
                     .exit = NULL};
 
-extern Sound gPaddleHit;
 extern Font gFont;
 
 // --------------------------------------------------
@@ -36,7 +36,7 @@ void state_start_update(float dt) {
   if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_DOWN)) {
     highlighted++;
     highlighted %= 2;
-    PlaySound(gPaddleHit);
+    PlaySound(*((Sound *)TableGet(gSounds, "paddle hit")));
   }
 
   if (IsKeyPressed(KEY_ENTER)) {

@@ -2,6 +2,9 @@
 // Includes
 // --------------------------------------------------
 #include "_Dependencies.h"
+#include "_Util.h"
+#include "raylib.h"
+#include <stdlib.h>
 
 // --------------------------------------------------
 // Defines
@@ -17,7 +20,10 @@
 void Init(void);
 void LoadFonts(void);
 void LoadTextures(void);
+void LoadAndStoreTextures(char *key, const char *path);
 void LoadSounds(void);
+void LoadAndStoreSounds(char *key, const char *path);
+
 void LoadMusic(void);
 
 void UpdateAll(float dt);
@@ -33,14 +39,11 @@ extern State stateStart;
 RenderTexture2D vScreen;
 
 Font gFont;
-Texture2D gBackground, gMain, gArrows, gHearts, gParticle;
-Sound gPaddleHit, gScore, gWallHit, gConfirm, gSelect, gNoSelect, gBrickHit1,
-    gBrickHit2, gHurt, gVictory, gRecover, gHighScore, gPause;
 Music gMusic;
 
 float dt;
 
-QuadNode **gFrames;
+// QuadNode **gFrames[32];
 
 // --------------------------------------------------
 // Program main entry point
@@ -74,33 +77,46 @@ void Init(void) {
   LoadTextures();
   LoadSounds();
 
-  gFrames = GenerateQuadsPaddles(gMain);
+  GenerateQuadsPaddles(*(Texture2D *)(TableGet(gTextures, "main")));
+  GenerateQuadsBalls(*(Texture2D *)(TableGet(gTextures, "main")));
 }
 
 void LoadFonts(void) { gFont = LoadFont("./assets/fonts/font.ttf"); }
 
 void LoadTextures(void) {
-  gBackground = LoadTexture("./assets/graphics/background.png");
-  gMain = LoadTexture("./assets/graphics/breakout.png");
-  gArrows = LoadTexture("./assets/graphics/arrows.png");
-  gHearts = LoadTexture("./assets/graphics/hearts.png");
-  gParticle = LoadTexture("./assets/graphics/particle.png");
+  LoadAndStoreTextures("background", "./assets/graphics/background.png");
+  LoadAndStoreTextures("main", "./assets/graphics/breakout.png");
+  LoadAndStoreTextures("arrows", "./assets/graphics/arrows.png");
+  LoadAndStoreTextures("hearts", "./assets/graphics/hearts.png");
+  LoadAndStoreTextures("particle", "./assets/graphics/particle.png");
+}
+
+void LoadAndStoreTextures(char *key, const char *path) {
+  Texture2D *temp = malloc(sizeof(Texture2D));
+  *temp = LoadTexture(path);
+  TableAdd(gTextures, key, (void *)temp);
 }
 
 void LoadSounds(void) {
-  gPaddleHit = LoadSound("./assets/sounds/paddle_hit.wav");
-  gScore = LoadSound("./assets/sounds/score.wav");
-  gWallHit = LoadSound("./assets/sounds/wall_hit.wav");
-  gConfirm = LoadSound("./assets/sounds/confirm.wav");
-  gSelect = LoadSound("./assets/sounds/select.wav");
-  gNoSelect = LoadSound("./assets/sounds/no_select.wav");
-  gBrickHit1 = LoadSound("./assets/sounds/brick-hit-1.wav");
-  gBrickHit2 = LoadSound("./assets/sounds/brick-hit-2.wav");
-  gHurt = LoadSound("./assets/sounds/hurt.wav");
-  gVictory = LoadSound("./assets/sounds/victory.wav");
-  gRecover = LoadSound("./assets/sounds/recover.wav");
-  gHighScore = LoadSound("./assets/sounds/high_score.wav");
-  gPause = LoadSound("./assets/sounds/pause.wav");
+  LoadAndStoreSounds("paddle hit", "./assets/sounds/paddle_hit.wav");
+  LoadAndStoreSounds("score", "./assets/sounds/score.wav");
+  LoadAndStoreSounds("wall hit", "./assets/sounds/wall_hit.wav");
+  LoadAndStoreSounds("confirm", "./assets/sounds/confirm.wav");
+  LoadAndStoreSounds("select", "./assets/sounds/select.wav");
+  LoadAndStoreSounds("no select", "./assets/sounds/no_select.wav");
+  LoadAndStoreSounds("brick hit wall 1", "./assets/sounds/brick-hit-1.wav");
+  LoadAndStoreSounds("brick hit wall 2", "./assets/sounds/brick-hit-2.wav");
+  LoadAndStoreSounds("hurt", "./assets/sounds/hurt.wav");
+  LoadAndStoreSounds("victory", "./assets/sounds/victory.wav");
+  LoadAndStoreSounds("recover", "./assets/sounds/recover.wav");
+  LoadAndStoreSounds("high score", "./assets/sounds/high_score.wav");
+  LoadAndStoreSounds("pause", "./assets/sounds/pause.wav");
+}
+
+void LoadAndStoreSounds(char *key, const char *path) {
+  Sound *temp = malloc(sizeof(Sound));
+  *temp = LoadSound(path);
+  TableAdd(gSounds, key, (void *)temp);
 }
 
 void LoadMusic(void) { gMusic = LoadMusicStream("./assets/musics/music.wav"); }
@@ -115,9 +131,12 @@ void DrawAll(void) {
 void DrawToVirtualScreen(void) {
   BeginTextureMode(vScreen);
   ClearBackground(BLACK);
-  Rectangle source = {0, 0, gBackground.width, gBackground.height};
+
+  Texture2D *bg = (Texture2D *)TableGet(gTextures, "background");
+  Rectangle source = {0, 0, bg->width, bg->height};
   Rectangle dest = {0, 0, VIRTUAL_WIDTH + 2, VIRTUAL_HEIGHT + 2};
-  DrawTexturePro(gBackground, source, dest, (Vector2){0, 0}, 0, WHITE);
+  DrawTexturePro(*bg, source, dest, (Vector2){0, 0}, 0, WHITE);
+
   sm_draw();
   DrawFPS(5, 5);
   EndTextureMode();

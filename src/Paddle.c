@@ -19,36 +19,32 @@
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
+int SetIndex(int skin, int width);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
 static Paddle paddle;
-extern QuadNode gFrames;
-extern Texture2D gMain;
 
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
-void print_hashtable(void) {
-  for (int i = 0; i < ARRAY_SIZE; i++) {
-    printf("Index: %d\n", i);
-    for (QuadNode *j = quads[i]; j != NULL; j = j->next) {
-      printf("\tquad - x: %d, y: %d\n", (int)j->quad.x, (int)j->quad.y);
-    }
-    puts("");
-  }
-}
-
 void PaddleInit(void) {
-  paddle.skin = S_BLUE;
+  paddle.skin = P_BLUE;
   paddle.width = PADDLE_MEDIUM_WIDTH;
   paddle.height = PADDLE_HEIGHT;
   paddle.pos.x = (VIRTUAL_WIDTH - paddle.width) / 2.0;
   paddle.pos.y = VIRTUAL_HEIGHT - STARTING_Y;
-  paddle.textureRect = GetQuad(paddle.skin, paddle.width);
+  paddle.index = SetIndex(paddle.skin, paddle.width);
+  paddle.textureRect = GetPaddleQuad(paddle);
+}
 
-  // print_hashtable();
+int SetIndex(int skin, int width) {
+  int skinIndex = __builtin_ctz(skin);
+  int sizeIndex = (width / PADDLE_SMALL_WIDTH) - 1;
+  int result = skinIndex * PADDLE_COLORS + sizeIndex;
+
+  return result;
 }
 
 void PaddleUpdate(float dt) {
@@ -65,5 +61,7 @@ void PaddleUpdate(float dt) {
 
 void PaddleDraw() {
   Rectangle dest = {paddle.pos.x, paddle.pos.y, paddle.width, paddle.height};
-  DrawTexturePro(gMain, *paddle.textureRect, dest, (Vector2){0, 0}, 0, WHITE);
+  Texture2D *texture = (Texture2D *)TableGet(gTextures, "main");
+  DrawTexturePro(*texture, *paddle.textureRect, dest, (Vector2){0, 0}, 0,
+                 WHITE);
 }

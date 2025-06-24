@@ -9,8 +9,9 @@
 // --------------------------------------------------
 // Other defines
 // --------------------------------------------------
-#define ARRAY_SIZE                                                             \
+#define PADDLE_ARRAY_SIZE                                                      \
   (PADDLE_SIZES * PADDLE_COLORS) // Best value, but any value works
+#define BALL_ARRAY_SIZE 7
 
 // --------------------------------------------------
 // Data types
@@ -21,20 +22,37 @@ typedef struct QuadNodeStruct {
   struct QuadNodeStruct *next;
 } QuadNode;
 
-QuadNode *quads[ARRAY_SIZE];
+typedef struct SoundsStruct {
+  char *key;
+  Sound *value;
+  struct SoundsStruct *next;
+} SoundNode;
+
+typedef struct AssetNodeStruct {
+  char *key;
+  void *value;
+  struct AssetNodeStruct *next;
+} AssetNode;
 
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-QuadNode **GenerateQuadsPaddles(Texture2D atlas);
-void AddToQuads(QuadNode *quadNode);
-Rectangle *GetQuad(int skin, int size);
-int Hash(int skin, int width);
-void Push(QuadNode *quad, int index);
-void UnloadQuads(void);
+void *GenerateQuadsPaddles(Texture2D atlas);
+void *GenerateQuadsBalls(Texture2D atlas);
+Rectangle *GetPaddleQuad(Paddle paddle);
+
+void SoundsAdd(char *key, Sound value);
+Sound *SoundsGet(char *key);
+
+void TableAdd(AssetNode *array[], char *key, void *value);
+void *TableGet(AssetNode *table[], char *key);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
+QuadNode paddles[PADDLE_ARRAY_SIZE];
+QuadNode balls[BALL_ARRAY_SIZE];
+AssetNode *gSounds[26];
+AssetNode *gTextures[26];
 
 #endif
