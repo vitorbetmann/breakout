@@ -194,7 +194,7 @@ Rectangle *GetBrickQuad(Brick *brick) {
   return NULL;
 }
 
-void TableAdd(AssetNode *array[], char *key, void *value) {
+void TableAdd(AssetNode *array[], const char *key, void *value) {
   int index = Hash(key);
 
   AssetNode *temp = malloc(sizeof(AssetNode));
@@ -205,7 +205,7 @@ void TableAdd(AssetNode *array[], char *key, void *value) {
   array[index] = temp;
 }
 
-void *TableGet(AssetNode *table[], char *key) {
+void *TableGet(AssetNode *table[], const char *key) {
   int index = Hash(key);
 
   AssetNode *cursor = table[index];

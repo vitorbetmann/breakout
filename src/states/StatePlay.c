@@ -10,6 +10,8 @@
 #include "_Util.h"
 #include "raylib.h"
 #include "smile.h"
+#include <math.h>
+#include <stdlib.h>
 
 // --------------------------------------------------
 // Defines
@@ -23,6 +25,7 @@ static const char *const PAUSE_TEXT = "PAUSE";
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
+void CheckPaddleCollision(void);
 bool CheckBallBrickCollision(void);
 void PauseTextDraw(void);
 
@@ -40,12 +43,14 @@ extern Font gFont;
 extern Ball ball;
 extern Paddle paddle;
 extern Brick ***bricks;
+static int score;
 
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
 void state_play_enter(void *args) {
   isPaused = false;
+  score = 0;
 
   PaddleInit();
   BallInit(GetRandomValue(0, 6));
@@ -64,24 +69,68 @@ void state_play_update(float dt) {
     PaddleUpdate(dt);
     BallUpdate(dt);
 
-    if (CheckCollisionRecs(ball.hitBox, paddle.hitBox)) {
-      ball.dy *= -1;
-      ball.pos.y = paddle.pos.y - BALL_SIZE;
-      PlaySound(*((Sound *)TableGet(gSounds, "paddle hit")));
-    }
+    CheckPaddleCollision();
     CheckBallBrickCollision();
   }
 }
 
+void CheckPaddleCollision(void) {
+  if (CheckCollisionRecs(ball.hitBox, paddle.hitBox)) {
+    ball.dy *= -1;
+    ball.pos.y = paddle.pos.y - BALL_SIZE;
+
+    // Ball coming from left
+    float paddleMidPoint = paddle.pos.x + paddle.width / 2.0;
+    if (ball.pos.x < paddleMidPoint && paddle.dx < 0) {
+      ball.dx = -(50 + (8 * (paddleMidPoint - ball.pos.x)));
+    }
+    // Ball coming from right
+    else if (ball.pos.x > paddleMidPoint && paddle.dx > 0) {
+      ball.dx = 50 + (8 * (ball.pos.x - paddleMidPoint));
+    }
+
+    PlaySound(*((Sound *)TableGet(gSounds, "paddle hit")));
+  }
+}
+
 bool CheckBallBrickCollision(void) {
-  for (int i = 0; i < bricksRow; i++) {
-    for (int j = 0; j < bricksCol; j++) {
+  bool hasCollided = false;
+  for (int i = 0; i < bricksRow && !hasCollided; i++) {
+    for (int j = 0; j < bricksCol && !hasCollided; j++) {
       Brick *temp = bricks[i][j];
-      if (!temp->inPlay) {
-        continue;
-      }
-      if (CheckCollisionRecs(ball.hitBox, temp->hitBox)) {
+      if (temp->inPlay && CheckCollisionRecs(ball.hitBox, temp->hitBox)) {
+        score += 10;
+
+        int tempLeft = temp->hitBox.x;
+        int tempRight = tempLeft + temp->hitBox.width;
+        // Check left edge
+        if (ball.pos.x + 2 < tempLeft && ball.dx > 0) {
+          ball.pos.x = tempLeft - ball.size;
+          ball.dx *= -1;
+        }
+        // Check right edge
+        else if (ball.pos.x + ball.size - 2 > tempRight && ball.dx < 0) {
+          ball.pos.x = tempRight;
+          ball.dx *= -1;
+        }
+        // Check top edge
+        else if (ball.pos.y < temp->hitBox.y) {
+          ball.dy *= -1;
+          ball.pos.y = temp->hitBox.y - ball.size;
+        }
+        // Else, bottom edge it is
+        else {
+          ball.dy *= -1;
+          ball.pos.y = temp->hitBox.y + temp->hitBox.height;
+        }
+
+        if (fabs(ball.dy) < 150) {
+          ball.dy *= 1.02;
+        }
+
         BrickHit(temp);
+
+        hasCollided = true;
       }
     }
   }

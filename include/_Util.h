@@ -24,7 +24,7 @@ typedef struct QuadNodeStruct {
 } QuadNode;
 
 typedef struct AssetNodeStruct {
-  char *key;
+  const char *key;
   void *value;
   struct AssetNodeStruct *next;
 } AssetNode;
@@ -38,8 +38,8 @@ Rectangle *GetPaddleQuad(void);
 Rectangle *GetBallQuad(void);
 Rectangle *GetBrickQuad(Brick *brick);
 
-void TableAdd(AssetNode *array[], char *key, void *value);
-void *TableGet(AssetNode *table[], char *key);
+void TableAdd(AssetNode *array[], const char *key, void *value);
+void *TableGet(AssetNode *table[], const char *key);
 
 // --------------------------------------------------
 // Variables

@@ -42,7 +42,10 @@ void BallInit(int skin) {
 void BallReset(void) {
   ball.pos.x = (VIRTUAL_WIDTH - ball.size) / 2.0;
   ball.pos.y = (VIRTUAL_HEIGHT - ball.size) / 2.0;
-  ball.dx = ball.dy = -BALL_SPEED;
+  ball.dx =
+      GetRandomValue(-BALL_MAX_STARTING_SPEED_X, BALL_MAX_STARTING_SPEED_X);
+  ball.dy =
+      GetRandomValue(BALL_MIN_STARTING_SPEED_Y, BALL_MAX_STARTING_SPEED_Y);
   BallUpdateHitBox();
 }
 

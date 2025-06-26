@@ -26,7 +26,9 @@
 
 // Balls
 #define BALL_SIZE 8
-#define BALL_SPEED 100
+#define BALL_MAX_STARTING_SPEED_X 200
+#define BALL_MIN_STARTING_SPEED_Y -50
+#define BALL_MAX_STARTING_SPEED_Y -60
 
 // Bricks
 #define BRICKS_ROW_MIN 1

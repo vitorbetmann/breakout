@@ -17,9 +17,9 @@
 void Init(void);
 void LoadFonts(void);
 void LoadTextures(void);
-void LoadAndStoreTextures(char *key, const char *path);
+void LoadAndStoreTextures(const char *key, const char *path);
 void LoadSounds(void);
-void LoadAndStoreSounds(char *key, const char *path);
+void LoadAndStoreSounds(const char *key, const char *path);
 void LoadMusic(void);
 
 void UpdateAll(float dt);
@@ -88,7 +88,7 @@ void LoadTextures(void) {
   LoadAndStoreTextures("particle", "./assets/graphics/particle.png");
 }
 
-void LoadAndStoreTextures(char *key, const char *path) {
+void LoadAndStoreTextures(const char *key, const char *path) {
   Texture2D *temp = malloc(sizeof(Texture2D));
   *temp = LoadTexture(path);
   TableAdd(gTextures, key, (void *)temp);
@@ -110,7 +110,7 @@ void LoadSounds(void) {
   LoadAndStoreSounds("pause", "./assets/sounds/pause.wav");
 }
 
-void LoadAndStoreSounds(char *key, const char *path) {
+void LoadAndStoreSounds(const char *key, const char *path) {
   Sound *temp = malloc(sizeof(Sound));
   *temp = LoadSound(path);
   TableAdd(gSounds, key, (void *)temp);
