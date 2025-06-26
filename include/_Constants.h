@@ -24,8 +24,14 @@
 #define PADDLE_SPEED 200
 #define STARTING_Y 32
 
-// Ball
+// Balls
 #define BALL_SIZE 8
 #define BALL_SPEED 100
+
+// Bricks
+#define BRICKS_ROW_MIN 1
+#define BRICKS_ROW_MAX 5
+#define BRICKS_COL_MIN 7
+#define BRICKS_COL_MAX 13
 
 #endif

@@ -35,8 +35,8 @@ void BallInit(int skin) {
   ball.size = BALL_SIZE;
   BallReset();
   ball.index = &ball.skin;
-  ball.textureRect = GetBallQuad(ball);
-  ball.texture = (Texture2D *)TableGet(gTextures, "main");
+  ball.textureRect = GetBallQuad();
+  ball.texture = TableGet(gTextures, "main");
 }
 
 void BallReset(void) {

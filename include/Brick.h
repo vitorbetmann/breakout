@@ -1,39 +1,48 @@
-#ifndef BALL_H
-#define BALL_H
+#ifndef BRICK_H
+#define BRICK_H
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "raylib.h"
+#include "_Constants.h"
+#include <raylib.h>
 
 // --------------------------------------------------
 // Other defines
 // --------------------------------------------------
+#define BRICK_SKINS 5
+#define BRICK_TIERS 4
+#define BRICK_SPECIAL 1
+#define BRICK_WIDTH 32
+#define BRICK_HEIGHT 16
 
 // --------------------------------------------------
 // Data types
 // --------------------------------------------------
 typedef struct {
-  int skin;
-  int size;
-  Vector2 pos;
-  float dx, dy;
-  int *index;
   Rectangle *textureRect;
   Texture2D *texture;
+  int skin, tier;
   Rectangle hitBox;
-} Ball;
+  bool inPlay;
+  int index;
+} Brick;
+
+typedef struct BrickNodeStruct {
+  struct BrickNodeStruct *next;
+  Brick *brick;
+} BrickNode;
 
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void BallInit(int skin);
-void BallUpdate(float dt);
-void BallDraw(void);
-bool HasBallCollided(Rectangle target);
+Brick *NewBrick(int posx, int posY);
+void BrickHit(Brick *brick);
+void BricksDraw(void);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-extern Ball ball;
+extern Brick ***bricks; // A 2D array of pointers... feels unholy omg
+extern int bricksRow, bricksCol;
 
 #endif

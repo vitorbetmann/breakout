@@ -1,9 +1,9 @@
-#ifndef BALL_H
-#define BALL_H
+#ifndef LEVEL_MAKER_H
+#define LEVEL_MAKER_H
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "raylib.h"
+#include "Brick.h"
 
 // --------------------------------------------------
 // Other defines
@@ -12,28 +12,14 @@
 // --------------------------------------------------
 // Data types
 // --------------------------------------------------
-typedef struct {
-  int skin;
-  int size;
-  Vector2 pos;
-  float dx, dy;
-  int *index;
-  Rectangle *textureRect;
-  Texture2D *texture;
-  Rectangle hitBox;
-} Ball;
 
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void BallInit(int skin);
-void BallUpdate(float dt);
-void BallDraw(void);
-bool HasBallCollided(Rectangle target);
+void CreateMap(void);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-extern Ball ball;
 
 #endif

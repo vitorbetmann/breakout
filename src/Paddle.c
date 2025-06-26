@@ -37,7 +37,7 @@ void PaddleInit(void) {
   paddle.pos.x = (VIRTUAL_WIDTH - paddle.width) / 2.0;
   paddle.pos.y = VIRTUAL_HEIGHT - STARTING_Y;
   paddle.index = SetIndex(paddle.skin, paddle.width);
-  paddle.textureRect = GetPaddleQuad(paddle);
+  paddle.textureRect = GetPaddleQuad();
   paddle.texture = TableGet(gTextures, "main");
   PaddleUpdateHitBox();
 }

@@ -2,6 +2,8 @@
 // Includes
 // --------------------------------------------------
 #include "_Util.h"
+#include "Ball.h"
+#include "Brick.h"
 #include "Paddle.h"
 #include "_Constants.h"
 #include "raylib.h"
@@ -23,11 +25,19 @@
 // --------------------------------------------------
 // Data types
 // --------------------------------------------------
+#define ROWS 4
+#define COLS 6
 
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-int SoundsHash(const char *key);
+// void GenerateQuads(Texture2D atlas);
+void GenerateBrickQuads(Texture2D atlas);
+void GeneratePaddleQuads(Texture2D atlas);
+void GenerateBallQuads(Texture2D atlas);
+
+void Slice(QuadNode *src[], QuadNode *dest[], int start, int end);
+
 int Hash(const char *key);
 
 // --------------------------------------------------
@@ -37,75 +47,79 @@ int Hash(const char *key);
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
-void *GenerateQuadsPaddles(Texture2D atlas) {
+void GenerateAllQuads(Texture2D atlas) {
+  GeneratePaddleQuads(atlas);
+  GenerateBallQuads(atlas);
+  GenerateBrickQuads(atlas);
+}
+
+void GeneratePaddleQuads(Texture2D atlas) {
   Vector2 origin = {.x = 0, .y = PADDLES_ORIGIN_Y};
   int counter = 0;
 
   for (int i = 0; i < PADDLE_SIZES; i++) {
     int tempSkin = 0b0001 << i;
 
-    static QuadNode small;
-    small.quad.x = origin.x;
-    small.quad.y = origin.y;
-    small.quad.width = PADDLE_SMALL_WIDTH;
-    small.quad.height = PADDLE_HEIGHT;
-    small.skin = tempSkin;
-    small.next = NULL;
+    QuadNode *small = malloc(sizeof(QuadNode));
+    small->quad.x = origin.x;
+    small->quad.y = origin.y;
+    small->quad.width = PADDLE_SMALL_WIDTH;
+    small->quad.height = PADDLE_HEIGHT;
+    small->skin = tempSkin;
+    small->next = NULL;
 
     origin.x += PADDLE_SMALL_WIDTH;
-    static QuadNode medium;
-    medium.quad.x = origin.x;
-    medium.quad.y = origin.y;
-    medium.quad.width = PADDLE_MEDIUM_WIDTH;
-    medium.quad.height = PADDLE_HEIGHT;
-    medium.skin = tempSkin;
-    medium.next = NULL;
+    QuadNode *medium = malloc(sizeof(QuadNode));
+    medium->quad.x = origin.x;
+    medium->quad.y = origin.y;
+    medium->quad.width = PADDLE_MEDIUM_WIDTH;
+    medium->quad.height = PADDLE_HEIGHT;
+    medium->skin = tempSkin;
+    medium->next = NULL;
 
     origin.x += PADDLE_MEDIUM_WIDTH;
-    static QuadNode large;
-    large.quad.x = origin.x;
-    large.quad.y = origin.y;
-    large.quad.width = PADDLE_LARGE_WIDTH;
-    large.quad.height = PADDLE_HEIGHT;
-    large.skin = tempSkin;
-    large.next = NULL;
+    QuadNode *large = malloc(sizeof(QuadNode));
+    large->quad.x = origin.x;
+    large->quad.y = origin.y;
+    large->quad.width = PADDLE_LARGE_WIDTH;
+    large->quad.height = PADDLE_HEIGHT;
+    large->skin = tempSkin;
+    large->next = NULL;
 
     origin.x = 0;
     origin.y += 16;
-    static QuadNode huge;
-    huge.quad.x = origin.x;
-    huge.quad.y = origin.y;
-    huge.quad.width = PADDLE_HUGE_WIDTH;
-    huge.quad.height = PADDLE_HEIGHT;
-    huge.skin = tempSkin;
-    huge.next = NULL;
+    QuadNode *huge = malloc(sizeof(QuadNode));
+    huge->quad.x = origin.x;
+    huge->quad.y = origin.y;
+    huge->quad.width = PADDLE_HUGE_WIDTH;
+    huge->quad.height = PADDLE_HEIGHT;
+    huge->skin = tempSkin;
+    huge->next = NULL;
 
     // Add all to paddles array
-    paddles[counter++] = small;
-    paddles[counter++] = medium;
-    paddles[counter++] = large;
-    paddles[counter++] = huge;
+    paddleQuads[counter++] = small;
+    paddleQuads[counter++] = medium;
+    paddleQuads[counter++] = large;
+    paddleQuads[counter++] = huge;
 
     // Shift y for next iteration
     origin.y += 16;
   }
-
-  return paddles;
 }
 
-void *GenerateQuadsBalls(Texture2D atlas) {
+void GenerateBallQuads(Texture2D atlas) {
   Vector2 origin = {.x = BALLS_ORIGIN_X, .y = BALLS_ORIGIN_Y};
 
   for (int i = 0; i < BALLS_AMOUNT_ROW_1; i++) {
-    static QuadNode ball;
-    ball.quad.x = origin.x;
-    ball.quad.y = origin.y;
-    ball.quad.width = BALL_SIZE;
-    ball.quad.height = BALL_SIZE;
-    ball.skin = i;
-    ball.next = NULL;
+    QuadNode *ball = malloc(sizeof(QuadNode));
+    ball->quad.x = origin.x;
+    ball->quad.y = origin.y;
+    ball->quad.width = BALL_SIZE;
+    ball->quad.height = BALL_SIZE;
+    ball->next = NULL;
+    ball->skin = i;
 
-    balls[i] = ball;
+    ballQuads[i] = ball;
     origin.x += BALL_SIZE;
   }
 
@@ -113,25 +127,49 @@ void *GenerateQuadsBalls(Texture2D atlas) {
   origin.y = 56;
 
   for (int i = 0; i < BALLS_AMOUNT_ROW_2; i++) {
-    static QuadNode ball;
-    ball.quad.x = origin.x;
-    ball.quad.y = origin.y;
-    ball.quad.width = BALL_SIZE;
-    ball.quad.height = BALL_SIZE;
-    ball.skin = i + BALLS_AMOUNT_ROW_1;
-    ball.next = NULL;
+    QuadNode *ball = malloc(sizeof(QuadNode));
+    ball->quad.x = origin.x;
+    ball->quad.y = origin.y;
+    ball->quad.width = BALL_SIZE;
+    ball->quad.height = BALL_SIZE;
+    ball->next = NULL;
+    ball->skin = i + BALLS_AMOUNT_ROW_1;
 
-    balls[i + BALLS_AMOUNT_ROW_1] = ball;
+    ballQuads[i + BALLS_AMOUNT_ROW_1] = ball;
     origin.x += BALL_SIZE;
   }
-
-  return balls;
 }
 
-Rectangle *GetPaddleQuad(Paddle paddle) {
+void GenerateBrickQuads(Texture2D atlas) {
+  int counter = 0, skin = 0;
+  Vector2 origin = {0, 0};
+  for (int i = 0; i < ROWS; i++) {
+    for (int j = 0; j < COLS; j++) {
+      QuadNode *temp = malloc(sizeof(QuadNode));
+      temp->quad.x = origin.x;
+      temp->quad.y = origin.y;
+      temp->quad.width = BRICK_WIDTH;
+      temp->quad.height = BRICK_HEIGHT;
+      temp->skin = skin;
+      temp->next = NULL;
+      brickQuads[counter] = temp;
+
+      counter++;
+      if (counter == BRICK_ARRAY_SIZE) {
+        break;
+      }
+      skin++;
+      skin %= BRICK_TIERS;
+      origin.x += BRICK_WIDTH;
+    }
+    origin.y += BRICK_HEIGHT;
+  }
+}
+
+Rectangle *GetPaddleQuad() {
   int index = paddle.index;
 
-  QuadNode *temp = &paddles[index];
+  QuadNode *temp = paddleQuads[index];
   if (temp->skin == paddle.skin && temp->quad.width == paddle.width) {
     return &temp->quad;
   }
@@ -139,10 +177,18 @@ Rectangle *GetPaddleQuad(Paddle paddle) {
   return NULL;
 }
 
-Rectangle *GetBallQuad(Ball ball) {
+Rectangle *GetBallQuad() {
 
-  QuadNode *temp = &balls[ball.skin];
+  QuadNode *temp = ballQuads[ball.skin];
   if (temp->skin == ball.skin) {
+    return &temp->quad;
+  }
+  return NULL;
+}
+
+Rectangle *GetBrickQuad(Brick *brick) {
+  QuadNode *temp = brickQuads[brick->index];
+  if (temp->skin == brick->skin) {
     return &temp->quad;
   }
   return NULL;

@@ -3,16 +3,16 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "Ball.h"
+#include "Brick.h"
 #include "Paddle.h"
 #include "raylib.h"
 
 // --------------------------------------------------
 // Other defines
 // --------------------------------------------------
-#define PADDLE_ARRAY_SIZE                                                      \
-  (PADDLE_SIZES * PADDLE_COLORS) // Best value, but any value works
+#define PADDLE_ARRAY_SIZE (PADDLE_SIZES * PADDLE_COLORS)
 #define BALL_ARRAY_SIZE 7
+#define BRICK_ARRAY_SIZE 21 //(BRICK_COLORS * BRICK_TIERS + BRICK_SPECIAL)
 
 // --------------------------------------------------
 // Data types
@@ -23,12 +23,6 @@ typedef struct QuadNodeStruct {
   struct QuadNodeStruct *next;
 } QuadNode;
 
-typedef struct SoundsStruct {
-  char *key;
-  Sound *value;
-  struct SoundsStruct *next;
-} SoundNode;
-
 typedef struct AssetNodeStruct {
   char *key;
   void *value;
@@ -38,13 +32,11 @@ typedef struct AssetNodeStruct {
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void *GenerateQuadsPaddles(Texture2D atlas);
-void *GenerateQuadsBalls(Texture2D atlas);
-Rectangle *GetPaddleQuad(Paddle paddle);
-Rectangle *GetBallQuad(Ball ball);
+void GenerateAllQuads(Texture2D atlas);
 
-void SoundsAdd(char *key, Sound value);
-Sound *SoundsGet(char *key);
+Rectangle *GetPaddleQuad(void);
+Rectangle *GetBallQuad(void);
+Rectangle *GetBrickQuad(Brick *brick);
 
 void TableAdd(AssetNode *array[], char *key, void *value);
 void *TableGet(AssetNode *table[], char *key);
@@ -52,8 +44,10 @@ void *TableGet(AssetNode *table[], char *key);
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-QuadNode paddles[PADDLE_ARRAY_SIZE];
-QuadNode balls[BALL_ARRAY_SIZE];
+QuadNode *paddleQuads[PADDLE_ARRAY_SIZE];
+QuadNode *ballQuads[BALL_ARRAY_SIZE];
+QuadNode *brickQuads[BRICK_ARRAY_SIZE];
+
 AssetNode *gSounds[26];
 AssetNode *gTextures[26];
 

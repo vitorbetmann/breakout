@@ -75,8 +75,7 @@ void Init(void) {
   LoadTextures();
   LoadSounds();
 
-  GenerateQuadsPaddles(*(Texture2D *)(TableGet(gTextures, "main")));
-  GenerateQuadsBalls(*(Texture2D *)(TableGet(gTextures, "main")));
+  GenerateAllQuads(*(Texture2D *)(TableGet(gTextures, "main")));
 }
 
 void LoadFonts(void) { gFont = LoadFont("./assets/fonts/font.ttf"); }
@@ -102,8 +101,8 @@ void LoadSounds(void) {
   LoadAndStoreSounds("confirm", "./assets/sounds/confirm.wav");
   LoadAndStoreSounds("select", "./assets/sounds/select.wav");
   LoadAndStoreSounds("no select", "./assets/sounds/no_select.wav");
-  LoadAndStoreSounds("brick hit wall 1", "./assets/sounds/brick-hit-1.wav");
-  LoadAndStoreSounds("brick hit wall 2", "./assets/sounds/brick-hit-2.wav");
+  LoadAndStoreSounds("brick hit 1", "./assets/sounds/brick-hit-1.wav");
+  LoadAndStoreSounds("brick hit 2", "./assets/sounds/brick-hit-2.wav");
   LoadAndStoreSounds("hurt", "./assets/sounds/hurt.wav");
   LoadAndStoreSounds("victory", "./assets/sounds/victory.wav");
   LoadAndStoreSounds("recover", "./assets/sounds/recover.wav");

@@ -3,11 +3,14 @@
 // --------------------------------------------------
 #include "states/StatePlay.h"
 #include "Ball.h"
+#include "Brick.h"
+#include "LevelMaker.h"
 #include "Paddle.h"
 #include "_Constants.h"
 #include "_Util.h"
 #include "raylib.h"
 #include "smile.h"
+
 // --------------------------------------------------
 // Defines
 // --------------------------------------------------
@@ -20,6 +23,7 @@ static const char *const PAUSE_TEXT = "PAUSE";
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
+bool CheckBallBrickCollision(void);
 void PauseTextDraw(void);
 
 // --------------------------------------------------
@@ -35,6 +39,7 @@ static bool isPaused;
 extern Font gFont;
 extern Ball ball;
 extern Paddle paddle;
+extern Brick ***bricks;
 
 // --------------------------------------------------
 // Functions
@@ -44,6 +49,7 @@ void state_play_enter(void *args) {
 
   PaddleInit();
   BallInit(GetRandomValue(0, 6));
+  CreateMap();
 }
 
 void state_play_update(float dt) {
@@ -63,12 +69,29 @@ void state_play_update(float dt) {
       ball.pos.y = paddle.pos.y - BALL_SIZE;
       PlaySound(*((Sound *)TableGet(gSounds, "paddle hit")));
     }
+    CheckBallBrickCollision();
   }
+}
+
+bool CheckBallBrickCollision(void) {
+  for (int i = 0; i < bricksRow; i++) {
+    for (int j = 0; j < bricksCol; j++) {
+      Brick *temp = bricks[i][j];
+      if (!temp->inPlay) {
+        continue;
+      }
+      if (CheckCollisionRecs(ball.hitBox, temp->hitBox)) {
+        BrickHit(temp);
+      }
+    }
+  }
+  return false;
 }
 
 void state_play_draw(void) {
   PaddleDraw();
   BallDraw();
+  BricksDraw();
 
   if (isPaused) {
     PauseTextDraw();
