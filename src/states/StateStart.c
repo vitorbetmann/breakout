@@ -1,12 +1,10 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "states/StateStart.h"
-#include "_Constants.h"
-#include "_Util.h"
+#include "Ball.h"
+#include "Paddle.h"
+#include "_Dependencies.h"
 #include "raylib.h"
-#include "smile.h"
-#include "states/StatePlay.h"
 
 // --------------------------------------------------
 // Data types
@@ -44,7 +42,9 @@ void state_start_update(float dt) {
   if (IsKeyPressed(KEY_ENTER)) {
     switch ((Options)highlighted) {
     case START:
-      sm_change_state(&statePlay, NULL);
+      PaddleInit();
+      BallInit(GetRandomValue(0, 6));
+      sm_change_state(&stateGameInit, NULL);
       break;
     case HIGH_SCORE:
       // TODO handle this later

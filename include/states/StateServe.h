@@ -1,5 +1,5 @@
-#ifndef STATE_PLAY_H
-#define STATE_PLAY_H
+#ifndef STATE_SERVE_H
+#define STATE_SERVE_H
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
@@ -8,12 +8,14 @@
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void state_play_update(float dt);
-void state_play_draw(void);
+void state_serve_enter(void *args);
+void state_serve_update(float dt);
+void state_serve_draw(void);
+void state_serve_exit(void);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-extern State statePlay;
+extern State stateServe;
 
 #endif

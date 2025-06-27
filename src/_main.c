@@ -1,15 +1,15 @@
+// TODO: free everything I'm mallocking
+// TODO:
+
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
 #include "_Dependencies.h"
 
 // --------------------------------------------------
-// Defines
-// --------------------------------------------------
-
-// --------------------------------------------------
 // Data types
 // --------------------------------------------------
+typedef enum { FULL, EMPTY } HeartState;
 
 // --------------------------------------------------
 // Prototypes
@@ -25,7 +25,13 @@ void LoadMusic(void);
 void UpdateAll(float dt);
 void DrawAll(void);
 void DrawToVirtualScreen(void);
+void DrawBackground(void);
+void DrawHearts(void);
+void DrawScore(void);
+
 void DrawToWindow(void);
+
+void UnloadAll(void);
 
 // --------------------------------------------------
 // Variables
@@ -38,8 +44,8 @@ Font gFont;
 Music gMusic;
 
 float dt;
-
-// QuadNode **gFrames[32];
+int gHealth = MAX_HEALTH;
+int gScore;
 
 // --------------------------------------------------
 // Program main entry point
@@ -53,6 +59,7 @@ int main(void) {
     UpdateAll(dt);
     DrawAll();
   }
+  UnloadAll();
 
   return 0;
 }
@@ -129,21 +136,52 @@ void DrawToVirtualScreen(void) {
   BeginTextureMode(vScreen);
   ClearBackground(BLACK);
 
-  Texture2D *bg = TableGet(gTextures, "background");
-  Rectangle source = {0, 0, bg->width, bg->height};
-  Rectangle dest = {0, 0, VIRTUAL_WIDTH + 2, VIRTUAL_HEIGHT + 2};
-  DrawTexturePro(*bg, source, dest, (Vector2){0, 0}, 0, WHITE);
+  DrawBackground();
+  DrawHearts();
+  DrawScore();
 
   sm_draw();
   DrawFPS(5, 5);
   EndTextureMode();
 }
 
+void DrawBackground(void) {
+  Texture2D *bg = TableGet(gTextures, "background");
+  Rectangle source = {0, 0, bg->width, bg->height};
+  Rectangle dest = {0, 0, VIRTUAL_WIDTH + 2, VIRTUAL_HEIGHT + 2};
+  DrawTexturePro(*bg, source, dest, (Vector2){0, 0}, 0, WHITE);
+}
+
+void DrawHearts(void) {
+  Rectangle dest = {VIRTUAL_WIDTH - 100, 4, HEART_WIDTH, HEART_HEIGHT};
+
+  for (int i = 0; i < gHealth; i++) {
+    DrawTexturePro(*((Texture2D *)TableGet(gTextures, "hearts")),
+                   *GetHeartQuad(FULL), dest, (Vector2){0, 0}, 0, WHITE);
+    dest.x += HEART_WIDTH + 2;
+  }
+
+  // Empty hearts
+  for (int i = 0; i < MAX_HEALTH - gHealth; i++) {
+    DrawTexturePro(*((Texture2D *)TableGet(gTextures, "hearts")),
+                   *GetHeartQuad(EMPTY), dest, (Vector2){0, 0}, 0, WHITE);
+    dest.x += HEART_WIDTH + 2;
+  }
+}
+
+void DrawScore(void) {
+  Vector2 origin = {VIRTUAL_WIDTH - 60, 5};
+  char buffer[32];
+  snprintf(buffer, sizeof(buffer), "Score: %04d", gScore);
+  DrawTextEx(gFont, buffer, origin, FONT_SMALL, 0, WHITE);
+}
+
 void DrawToWindow(void) {
   BeginDrawing();
   Rectangle source = {0, 0, vScreen.texture.width, -vScreen.texture.height};
-
   Rectangle dest = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
   DrawTexturePro(vScreen.texture, source, dest, (Vector2){0, 0}, 0, WHITE);
   EndDrawing();
 }
+
+void UnloadAll(void) { MapUnload(); }

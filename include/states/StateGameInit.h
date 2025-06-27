@@ -1,5 +1,5 @@
-#ifndef STATE_PLAY_H
-#define STATE_PLAY_H
+#ifndef GAME_INIT_H
+#define GAME_INIT_H
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
@@ -8,12 +8,11 @@
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void state_play_update(float dt);
-void state_play_draw(void);
+void state_game_init_enter(void *args);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-extern State statePlay;
+extern State stateGameInit;
 
 #endif

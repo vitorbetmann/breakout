@@ -60,3 +60,5 @@ void BrickDraw(Brick *brick) {
   DrawTexturePro(*brick->texture, *brick->textureRect, brick->hitBox,
                  (Vector2){0, 0}, 0, WHITE);
 }
+
+void BrickUnload(Brick *brick) { free(brick); }

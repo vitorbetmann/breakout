@@ -13,6 +13,7 @@
 #define PADDLE_ARRAY_SIZE (PADDLE_SIZES * PADDLE_COLORS)
 #define BALL_ARRAY_SIZE 7
 #define BRICK_ARRAY_SIZE 21 //(BRICK_COLORS * BRICK_TIERS + BRICK_SPECIAL)
+#define HEART_ARRAY_SIZE 2
 
 // --------------------------------------------------
 // Data types
@@ -20,7 +21,6 @@
 typedef struct QuadNodeStruct {
   Rectangle quad;
   int skin;
-  struct QuadNodeStruct *next;
 } QuadNode;
 
 typedef struct AssetNodeStruct {
@@ -37,6 +37,7 @@ void GenerateAllQuads(Texture2D atlas);
 Rectangle *GetPaddleQuad(void);
 Rectangle *GetBallQuad(void);
 Rectangle *GetBrickQuad(Brick *brick);
+Rectangle *GetHeartQuad(int skin);
 
 void TableAdd(AssetNode *array[], const char *key, void *value);
 void *TableGet(AssetNode *table[], const char *key);
@@ -47,6 +48,7 @@ void *TableGet(AssetNode *table[], const char *key);
 QuadNode *paddleQuads[PADDLE_ARRAY_SIZE];
 QuadNode *ballQuads[BALL_ARRAY_SIZE];
 QuadNode *brickQuads[BRICK_ARRAY_SIZE];
+QuadNode *heartQuads[HEART_ARRAY_SIZE];
 
 AssetNode *gSounds[26];
 AssetNode *gTextures[26];

@@ -3,7 +3,6 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "_Constants.h"
 #include <raylib.h>
 
 // --------------------------------------------------
@@ -27,17 +26,13 @@ typedef struct {
   int index;
 } Brick;
 
-typedef struct BrickNodeStruct {
-  struct BrickNodeStruct *next;
-  Brick *brick;
-} BrickNode;
-
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
 Brick *NewBrick(int posx, int posY);
 void BrickHit(Brick *brick);
 void BricksDraw(void);
+void BrickUnload(Brick *brick);
 
 // --------------------------------------------------
 // Variables

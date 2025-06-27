@@ -9,14 +9,6 @@
 #include "stdio.h"
 
 // --------------------------------------------------
-// Defines
-// --------------------------------------------------
-
-// --------------------------------------------------
-// Data types
-// --------------------------------------------------
-
-// --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
 void BallReset(void);
@@ -55,16 +47,16 @@ void BallUpdate(float dt) {
 
   if (ball.pos.x < 0 || ball.pos.x + BALL_SIZE > VIRTUAL_WIDTH) {
     ball.dx *= -1;
+    ball.pos.x = Clamp(ball.pos.x, 0, VIRTUAL_WIDTH - ball.size);
     PlaySound(*((Sound *)TableGet(gSounds, "wall hit")));
   }
 
   if (ball.pos.y < 0) {
     ball.dy *= -1;
+    ball.pos.y = 0;
     PlaySound(*(Sound *)TableGet(gSounds, "wall hit"));
   }
 
-  ball.pos.x = Clamp(ball.pos.x, 0, VIRTUAL_WIDTH);
-  ball.pos.y = Clamp(ball.pos.y, 0, VIRTUAL_HEIGHT);
   BallUpdateHitBox();
 }
 

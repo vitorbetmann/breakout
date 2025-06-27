@@ -1,21 +1,8 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "states/StatePlay.h"
-#include "Ball.h"
-#include "Brick.h"
 #include "LevelMaker.h"
-#include "Paddle.h"
-#include "_Constants.h"
-#include "_Util.h"
-#include "raylib.h"
-#include "smile.h"
-#include <math.h>
-#include <stdlib.h>
-
-// --------------------------------------------------
-// Defines
-// --------------------------------------------------
+#include "_Dependencies.h"
 
 // --------------------------------------------------
 // Data types
@@ -33,30 +20,22 @@ void PauseTextDraw(void);
 // Variables
 // --------------------------------------------------
 State statePlay = {.id = "play",
-                   .enter = state_play_enter,
+                   .enter = NULL,
                    .update = state_play_update,
                    .draw = state_play_draw,
-                   .exit = state_play_exit};
+                   .exit = NULL};
 
-static bool isPaused;
+bool isPaused = false;
 extern Font gFont;
 extern Ball ball;
 extern Paddle paddle;
 extern Brick ***bricks;
-static int score;
+extern int gScore;
+extern int gHealth;
 
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
-void state_play_enter(void *args) {
-  isPaused = false;
-  score = 0;
-
-  PaddleInit();
-  BallInit(GetRandomValue(0, 6));
-  CreateMap();
-}
-
 void state_play_update(float dt) {
   if (IsKeyPressed(KEY_SPACE)) {
     isPaused = !isPaused;
@@ -71,6 +50,18 @@ void state_play_update(float dt) {
 
     CheckPaddleCollision();
     CheckBallBrickCollision();
+
+    if (ball.pos.y > VIRTUAL_HEIGHT) {
+      gHealth--;
+      PlaySound(*(Sound *)TableGet(gSounds, "hurt"));
+
+      if (gHealth == 0) {
+        MapUnload();
+        sm_change_state(&stateGameOver, NULL);
+      } else {
+        sm_change_state(&stateServe, NULL);
+      }
+    }
   }
 }
 
@@ -99,7 +90,7 @@ bool CheckBallBrickCollision(void) {
     for (int j = 0; j < bricksCol && !hasCollided; j++) {
       Brick *temp = bricks[i][j];
       if (temp->inPlay && CheckCollisionRecs(ball.hitBox, temp->hitBox)) {
-        score += 10;
+        gScore += 10;
 
         int tempLeft = temp->hitBox.x;
         int tempRight = tempLeft + temp->hitBox.width;
@@ -152,8 +143,4 @@ void PauseTextDraw(void) {
   Vector2 pos = {(VIRTUAL_WIDTH - textSize.x) / 2.0,
                  (VIRTUAL_HEIGHT - textSize.y) / 2.0};
   DrawTextPro(gFont, PAUSE_TEXT, pos, (Vector2){0, 0}, 0, FONT_LARGE, 0, WHITE);
-}
-
-void state_play_exit(void) {
-  // TODO
 }
