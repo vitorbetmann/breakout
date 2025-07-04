@@ -200,10 +200,7 @@ Rectangle *GetBallQuad() {
 
 Rectangle *GetBrickQuad(Brick *brick) {
   QuadNode *temp = brickQuads[brick->index];
-  if (temp->skin == brick->skin) {
-    return &temp->quad;
-  }
-  return NULL;
+  return &temp->quad;
 }
 
 Rectangle *GetHeartQuad(int skin) {

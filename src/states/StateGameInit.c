@@ -18,6 +18,7 @@ State stateGameInit = {.id = "game init",
                        .exit = NULL};
 extern int gHealth;
 extern int gScore;
+extern int currLevel;
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
@@ -27,7 +28,7 @@ void state_game_init_enter(void *args) {
   if (bricks) {
     MapUnload();
   }
-  MapCreate();
+  MapCreate(currLevel);
 
   sm_change_state(&stateServe, NULL);
 }

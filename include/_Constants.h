@@ -23,6 +23,9 @@
 #define FINAL_SCORE_TEXT "Final Score:"
 #define CONTINUE_TEXT "Press Enter to continue!"
 
+// Game
+#define TIER_THRESHOLD 4
+
 // Paddles
 #define PADDLE_SPEED 200
 #define STARTING_Y 32

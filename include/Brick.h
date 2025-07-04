@@ -29,7 +29,7 @@ typedef struct {
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-Brick *NewBrick(int posx, int posY);
+Brick *NewBrick(int skin, int tier, int posx, int posY);
 void BrickHit(Brick *brick);
 void BricksDraw(void);
 void BrickUnload(Brick *brick);

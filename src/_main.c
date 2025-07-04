@@ -47,6 +47,8 @@ float dt;
 int gHealth = MAX_HEALTH;
 int gScore;
 
+int currLevel = 0;
+
 // --------------------------------------------------
 // Program main entry point
 // --------------------------------------------------

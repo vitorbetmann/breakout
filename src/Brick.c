@@ -28,10 +28,10 @@ int bricksRow, bricksCol;
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
-Brick *NewBrick(int posX, int posY) {
+Brick *NewBrick(int skin, int tier, int posX, int posY) {
   Brick *newBrick = malloc(sizeof(Brick));
-  newBrick->skin = 0;
-  newBrick->tier = 0;
+  newBrick->skin = skin;
+  newBrick->tier = tier;
   newBrick->index = newBrick->skin * 4 + newBrick->tier;
   newBrick->inPlay = true;
   newBrick->hitBox = (Rectangle){posX, posY, BRICK_WIDTH, BRICK_HEIGHT};

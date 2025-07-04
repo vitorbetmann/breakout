@@ -3,7 +3,9 @@
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void MapCreate(void);
+void MapCreate(int level);
 void MapUnload(void);
+
+extern int currLevel;
 
 #endif
