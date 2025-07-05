@@ -35,7 +35,6 @@ Brick *NewBrick(int skin, int tier, int posX, int posY) {
   }
   newBrick->skin = skin;
   newBrick->tier = tier;
-  newBrick->index = newBrick->skin * 4 + newBrick->tier;
   newBrick->inPlay = true;
   newBrick->hitBox = (Rectangle){posX, posY, BRICK_WIDTH, BRICK_HEIGHT};
   newBrick->textureRect = GetBrickQuad(newBrick);
@@ -43,9 +42,30 @@ Brick *NewBrick(int skin, int tier, int posX, int posY) {
   return newBrick;
 }
 
+int GetBrickIndex(Brick *brick) { return brick->skin * 4 + brick->tier; }
+
 void BrickHit(Brick *brick) {
-  brick->inPlay = false;
   PlaySound(*((Sound *)TableGet(gSounds, "brick hit 2")));
+
+  if (brick->tier > 0) {
+    if (brick->skin == 0) {
+      brick->tier--;
+      brick->skin = 4;
+    } else {
+      brick->skin--;
+    }
+  } else {
+    if (brick->skin == 0) {
+      brick->inPlay = false;
+    } else {
+      brick->skin--;
+    }
+  }
+  brick->textureRect = GetBrickQuad(brick);
+
+  if (!brick->inPlay) {
+    PlaySound(*((Sound *)TableGet(gSounds, "brick hit 1")));
+  }
 }
 
 void BricksDraw(void) {

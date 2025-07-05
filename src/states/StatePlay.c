@@ -93,7 +93,7 @@ bool CheckBallBrickCollision(void) {
         continue;
       }
       if (temp->inPlay && CheckCollisionRecs(ball.hitBox, temp->hitBox)) {
-        gScore += 10;
+        gScore += temp->skin * 25 + temp->tier * 200;
 
         int tempLeft = temp->hitBox.x;
         int tempRight = tempLeft + temp->hitBox.width;

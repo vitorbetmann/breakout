@@ -23,13 +23,13 @@ typedef struct {
   int skin, tier;
   Rectangle hitBox;
   bool inPlay;
-  int index;
 } Brick;
 
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
 Brick *NewBrick(int skin, int tier, int posx, int posY);
+int GetBrickIndex(Brick *brick);
 void BrickHit(Brick *brick);
 void BricksDraw(void);
 void BrickUnload(Brick *brick);

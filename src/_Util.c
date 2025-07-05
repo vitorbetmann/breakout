@@ -223,7 +223,7 @@ Rectangle *GetBallQuad() {
 }
 
 Rectangle *GetBrickQuad(Brick *brick) {
-  QuadNode *temp = brickQuads[brick->index];
+  QuadNode *temp = brickQuads[GetBrickIndex(brick)];
   return &temp->quad;
 }
 
