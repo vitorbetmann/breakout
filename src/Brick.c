@@ -2,6 +2,7 @@
 // Includes
 // --------------------------------------------------
 #include "Brick.h"
+#include "ParticleSystem.h"
 #include "_Util.h"
 #include "raylib.h"
 #include "stdlib.h"
@@ -22,6 +23,14 @@ void BrickDraw(Brick *brick);
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
+int colorPallet[5][3] = {
+    {99, 155, 255},  // Blue
+    {106, 190, 47},  // Green
+    {217, 87, 99},   // Red
+    {215, 123, 186}, // Purple
+    {251, 242, 54},  // Gold
+};
+
 Brick ***bricks;
 int bricksRow, bricksCol;
 
@@ -39,6 +48,7 @@ Brick *NewBrick(int skin, int tier, int posX, int posY) {
   newBrick->hitBox = (Rectangle){posX, posY, BRICK_WIDTH, BRICK_HEIGHT};
   newBrick->textureRect = GetBrickQuad(newBrick);
   newBrick->texture = TableGet(gTextures, "main");
+  newBrick->particleSystem = NULL;
   return newBrick;
 }
 
@@ -66,6 +76,13 @@ void BrickHit(Brick *brick) {
   if (!brick->inPlay) {
     PlaySound(*((Sound *)TableGet(gSounds, "brick hit 1")));
   }
+}
+
+void BrickUpdate(Brick *brick, float dt) {
+  if (!brick->particleSystem) {
+    return;
+  }
+  PS_Update(brick->particleSystem, dt);
 }
 
 void BricksDraw(void) {

@@ -3,6 +3,7 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
+#include "ParticleSystem.h"
 #include <raylib.h>
 
 // --------------------------------------------------
@@ -23,6 +24,7 @@ typedef struct {
   int skin, tier;
   Rectangle hitBox;
   bool inPlay;
+  ParticleSystem *particleSystem;
 } Brick;
 
 // --------------------------------------------------
@@ -31,6 +33,7 @@ typedef struct {
 Brick *NewBrick(int skin, int tier, int posx, int posY);
 int GetBrickIndex(Brick *brick);
 void BrickHit(Brick *brick);
+void BrickUpdate(Brick *brick, float dt);
 void BricksDraw(void);
 void BrickUnload(Brick *brick);
 

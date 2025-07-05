@@ -14,6 +14,7 @@ static const char *const PAUSE_TEXT = "PAUSE";
 // --------------------------------------------------
 void CheckPaddleCollision(void);
 bool CheckBallBrickCollision(void);
+void BricksUpdate(float dt);
 void PauseTextDraw(void);
 
 // --------------------------------------------------
@@ -47,6 +48,7 @@ void state_play_update(float dt) {
   if (!isPaused) {
     PaddleUpdate(dt);
     BallUpdate(dt);
+    BricksUpdate(dt);
 
     CheckPaddleCollision();
     CheckBallBrickCollision();
@@ -61,6 +63,17 @@ void state_play_update(float dt) {
       } else {
         sm_change_state(&stateServe, NULL);
       }
+    }
+  }
+}
+
+void BricksUpdate(float dt) {
+  for (int i = 0; i < bricksRow; i++) {
+    for (int j = 0; j < bricksCol; j++) {
+      if (!bricks[i][j]) {
+        return;
+      }
+      BrickUpdate(bricks[i][j], dt);
     }
   }
 }
