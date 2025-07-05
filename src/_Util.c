@@ -63,6 +63,9 @@ void GeneratePaddleQuads(Texture2D atlas) {
     int tempSkin = 0b0001 << i;
 
     QuadNode *small = malloc(sizeof(QuadNode));
+    if (!small) {
+      return;
+    }
     small->quad.x = origin.x;
     small->quad.y = origin.y;
     small->quad.width = PADDLE_SMALL_WIDTH;
@@ -71,6 +74,9 @@ void GeneratePaddleQuads(Texture2D atlas) {
 
     origin.x += PADDLE_SMALL_WIDTH;
     QuadNode *medium = malloc(sizeof(QuadNode));
+    if (!medium) {
+      return;
+    }
     medium->quad.x = origin.x;
     medium->quad.y = origin.y;
     medium->quad.width = PADDLE_MEDIUM_WIDTH;
@@ -79,6 +85,9 @@ void GeneratePaddleQuads(Texture2D atlas) {
 
     origin.x += PADDLE_MEDIUM_WIDTH;
     QuadNode *large = malloc(sizeof(QuadNode));
+    if (!large) {
+      return;
+    }
     large->quad.x = origin.x;
     large->quad.y = origin.y;
     large->quad.width = PADDLE_LARGE_WIDTH;
@@ -88,6 +97,9 @@ void GeneratePaddleQuads(Texture2D atlas) {
     origin.x = 0;
     origin.y += 16;
     QuadNode *huge = malloc(sizeof(QuadNode));
+    if (!huge) {
+      return;
+    }
     huge->quad.x = origin.x;
     huge->quad.y = origin.y;
     huge->quad.width = PADDLE_HUGE_WIDTH;
@@ -110,6 +122,9 @@ void GenerateBallQuads(Texture2D atlas) {
 
   for (int i = 0; i < BALLS_AMOUNT_ROW_1; i++) {
     QuadNode *ball = malloc(sizeof(QuadNode));
+    if (!ball) {
+      return;
+    }
     ball->quad.x = origin.x;
     ball->quad.y = origin.y;
     ball->quad.width = BALL_SIZE;
@@ -125,6 +140,9 @@ void GenerateBallQuads(Texture2D atlas) {
 
   for (int i = 0; i < BALLS_AMOUNT_ROW_2; i++) {
     QuadNode *ball = malloc(sizeof(QuadNode));
+    if (!ball) {
+      return;
+    }
     ball->quad.x = origin.x;
     ball->quad.y = origin.y;
     ball->quad.width = BALL_SIZE;
@@ -142,6 +160,9 @@ void GenerateBrickQuads(Texture2D atlas) {
   for (int i = 0; i < ROWS; i++) {
     for (int j = 0; j < COLS; j++) {
       QuadNode *temp = malloc(sizeof(QuadNode));
+      if (!temp) {
+        return;
+      }
       temp->quad.x = origin.x;
       temp->quad.y = origin.y;
       temp->quad.width = BRICK_WIDTH;
@@ -167,6 +188,9 @@ void GenerateHeartQuads(Texture2D atlas) {
   Vector2 origin = {0, 0};
   for (int i = 0; i < 2; i++) {
     QuadNode *temp = malloc(sizeof(QuadNode));
+    if (!temp) {
+      return;
+    }
     temp->quad.x = origin.x;
     temp->quad.y = origin.y;
     temp->quad.width = HEART_WIDTH;
@@ -214,6 +238,9 @@ void TableAdd(AssetNode *array[], const char *key, void *value) {
   int index = Hash(key);
 
   AssetNode *temp = malloc(sizeof(AssetNode));
+  if (!temp) {
+    return;
+  }
   temp->key = key;
   temp->value = value;
   temp->next = array[index] ? array[index] : NULL;

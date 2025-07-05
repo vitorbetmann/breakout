@@ -39,13 +39,14 @@ void MapCreate(int level) {
   bricksCol = GetRandomValue(BRICKS_COL_MIN, BRICKS_COL_MAX);
   bricksCol = bricksCol % 2 == 0 ? bricksCol + 1 : bricksCol;
 
-  printf("row: %d, col: %d\n", bricksRow, bricksCol);
-
   int highestTier = (int)fmin(3, (float)level / TIER_THRESHOLD);
   int highestColor = (int)fmin(4, level % 4 + 3);
 
   bricks = malloc(bricksRow * sizeof(Brick));
-  int startingX = (VIRTUAL_WIDTH - bricksCol * BRICK_WIDTH) / 2.0;
+  if (!bricks) {
+    return;
+  }
+  int startingX = (VIRTUAL_WIDTH - bricksCol * BRICK_WIDTH) / 2.0 - BRICK_WIDTH;
   Vector2 origin = {startingX, BRICK_HEIGHT};
 
   for (int i = 0; i < bricksRow; i++) {
@@ -65,8 +66,18 @@ void MapCreate(int level) {
     int solidTier = GetRandomValue(0, highestTier);
 
     bricks[i] = malloc(bricksCol * sizeof(Brick));
+    if (!bricks[i]) {
+      return;
+    }
 
     for (int j = 0; j < bricksCol; j++) {
+      origin.x += BRICK_WIDTH;
+      skipFlag = !skipFlag;
+      if (skip && skipFlag) {
+        bricks[i][j] = NULL;
+        continue;
+      }
+
       int tempSkin, tempTier;
       if (alternate && alternateFlag) {
         tempSkin = color1;
@@ -83,13 +94,6 @@ void MapCreate(int level) {
       }
 
       bricks[i][j] = NewBrick(tempSkin, tempTier, origin.x, origin.y);
-
-      if (skip && skipFlag) {
-        bricks[i][j]->inPlay = false;
-      }
-      skipFlag = !skipFlag;
-
-      origin.x += BRICK_WIDTH;
     }
     origin.x = startingX;
     origin.y += BRICK_HEIGHT;

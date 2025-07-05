@@ -89,6 +89,9 @@ bool CheckBallBrickCollision(void) {
   for (int i = 0; i < bricksRow && !hasCollided; i++) {
     for (int j = 0; j < bricksCol && !hasCollided; j++) {
       Brick *temp = bricks[i][j];
+      if (!temp) {
+        continue;
+      }
       if (temp->inPlay && CheckCollisionRecs(ball.hitBox, temp->hitBox)) {
         gScore += 10;
 

@@ -99,6 +99,9 @@ void LoadTextures(void) {
 
 void LoadAndStoreTextures(const char *key, const char *path) {
   Texture2D *temp = malloc(sizeof(Texture2D));
+  if (!temp) {
+    return;
+  }
   *temp = LoadTexture(path);
   TableAdd(gTextures, key, (void *)temp);
 }
@@ -121,6 +124,9 @@ void LoadSounds(void) {
 
 void LoadAndStoreSounds(const char *key, const char *path) {
   Sound *temp = malloc(sizeof(Sound));
+  if (!temp) {
+    return;
+  }
   *temp = LoadSound(path);
   TableAdd(gSounds, key, (void *)temp);
 }

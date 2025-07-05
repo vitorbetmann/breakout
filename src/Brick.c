@@ -30,6 +30,9 @@ int bricksRow, bricksCol;
 // --------------------------------------------------
 Brick *NewBrick(int skin, int tier, int posX, int posY) {
   Brick *newBrick = malloc(sizeof(Brick));
+  if (!newBrick) {
+    return NULL;
+  }
   newBrick->skin = skin;
   newBrick->tier = tier;
   newBrick->index = newBrick->skin * 4 + newBrick->tier;
@@ -48,7 +51,9 @@ void BrickHit(Brick *brick) {
 void BricksDraw(void) {
   for (int i = 0; i < bricksRow; i++) {
     for (int j = 0; j < bricksCol; j++) {
-      BrickDraw(bricks[i][j]);
+      if (bricks[i][j]) {
+        BrickDraw(bricks[i][j]);
+      }
     }
   }
 }
