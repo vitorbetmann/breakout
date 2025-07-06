@@ -18,6 +18,14 @@
 // --------------------------------------------------
 // Data types
 // --------------------------------------------------
+typedef enum {
+  SKIN_BLUE,
+  SKIN_GREEN,
+  SKIN_RED,
+  SKIN_PURPLE,
+  SKIN_GOLD
+} BrickSkin;
+
 typedef struct {
   Rectangle *textureRect;
   Texture2D *texture;

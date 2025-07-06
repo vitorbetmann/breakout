@@ -71,7 +71,7 @@ void BricksUpdate(float dt) {
   for (int i = 0; i < bricksRow; i++) {
     for (int j = 0; j < bricksCol; j++) {
       if (!bricks[i][j]) {
-        return;
+        continue;
       }
       BrickUpdate(bricks[i][j], dt);
     }
