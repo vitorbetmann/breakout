@@ -1,9 +1,9 @@
 // TODO: free everything I'm mallocking
-// TODO:
 
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
+#include "Smile.h"
 #include "_Dependencies.h"
 
 // --------------------------------------------------
@@ -55,7 +55,7 @@ int currLevel = 20;
 int main(void) {
   Init();
 
-  sm_change_state(&stateStart, NULL);
+  SM_ChangeState(&stateStart, NULL);
   while (!WindowShouldClose()) {
     dt = GetFrameTime();
     UpdateAll(dt);
@@ -133,7 +133,7 @@ void LoadAndStoreSounds(const char *key, const char *path) {
 
 void LoadMusic(void) { gMusic = LoadMusicStream("./assets/musics/music.wav"); }
 
-void UpdateAll(float dt) { sm_update(dt); }
+void UpdateAll(float dt) { SM_Update(dt); }
 
 void DrawAll(void) {
   DrawToVirtualScreen();
@@ -148,7 +148,7 @@ void DrawToVirtualScreen(void) {
   DrawHearts();
   DrawScore();
 
-  sm_draw();
+  SM_Draw();
   DrawFPS(5, 5);
   EndTextureMode();
 }

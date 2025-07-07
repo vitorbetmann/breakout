@@ -3,6 +3,7 @@
 // --------------------------------------------------
 #include "Ball.h"
 #include "Paddle.h"
+#include "Smile.h"
 #include "_Dependencies.h"
 #include "raylib.h"
 
@@ -44,7 +45,7 @@ void state_start_update(float dt) {
     case START:
       PaddleInit();
       BallInit(GetRandomValue(0, 6));
-      sm_change_state(&stateGameInit, NULL);
+      SM_ChangeState(&stateGameInit, NULL);
       break;
     case HIGH_SCORE:
       // TODO handle this later

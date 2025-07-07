@@ -1,6 +1,7 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
+#include "Smile.h"
 #include "_Constants.h"
 #include "_Dependencies.h"
 #include "raylib.h"
@@ -23,7 +24,7 @@ extern int gScore;
 // --------------------------------------------------
 void state_game_over_update(float dt) {
   if (IsKeyPressed(KEY_ENTER)) {
-    sm_change_state(&stateGameInit, NULL);
+    SM_ChangeState(&stateGameInit, NULL);
   }
 }
 

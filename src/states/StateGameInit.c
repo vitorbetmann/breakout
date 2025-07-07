@@ -4,8 +4,8 @@
 #include "states/StateGameInit.h"
 #include "Brick.h"
 #include "LevelMaker.h"
+#include "Smile.h"
 #include "_Constants.h"
-#include "smile.h"
 #include "states/StateServe.h"
 
 // --------------------------------------------------
@@ -30,5 +30,5 @@ void state_game_init_enter(void *args) {
   }
   MapCreate(currLevel);
 
-  sm_change_state(&stateServe, NULL);
+  SM_ChangeState(&stateServe, NULL);
 }

@@ -2,6 +2,7 @@
 // Includes
 // --------------------------------------------------
 #include "LevelMaker.h"
+#include "Smile.h"
 #include "_Dependencies.h"
 
 // --------------------------------------------------
@@ -59,9 +60,9 @@ void state_play_update(float dt) {
 
       if (gHealth == 0) {
         MapUnload();
-        sm_change_state(&stateGameOver, NULL);
+        SM_ChangeState(&stateGameOver, NULL);
       } else {
-        sm_change_state(&stateServe, NULL);
+        SM_ChangeState(&stateServe, NULL);
       }
     }
   }

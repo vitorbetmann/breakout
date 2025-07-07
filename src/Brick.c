@@ -20,10 +20,6 @@
 #define COLOR_GOLD {251, 242, 54}
 
 // --------------------------------------------------
-// Data types
-// --------------------------------------------------
-
-// --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
 void BrickDraw(Brick *brick);
@@ -61,8 +57,13 @@ void BrickHit(Brick *brick) {
   brick->particleSystem =
       newParticleSystem(texture, 64,
                         (Vector2){brick->hitBox.x + BRICK_WIDTH / 2.0,
-                                  brick->hitBox.y + BRICK_HEIGHT / 2.0},
-                        500, 1000, -10, 0, 15, 80, NORMAL, 10, 10);
+                                  brick->hitBox.y + BRICK_HEIGHT / 2.0});
+
+  PS_SetParticleLifetime(brick->particleSystem, 500, 1000);
+  PS_SetLinearAcceleration(brick->particleSystem, -10, 0, 15, 80);
+  PS_SetEmissionArea(brick->particleSystem, NORMAL, 10, 10);
+  // PS_SetEmissionArea(brick->particleSystem, UNIFORM, 10, 10);
+  // PS_SetUniformDist(brick->particleSystem, (Vector2){8, 8}, 16);
 
   Color color1, color2;
   switch (brick->skin) {
@@ -113,7 +114,13 @@ void BrickUpdate(Brick *brick, float dt) {
   if (!brick->particleSystem) {
     return;
   }
+
   PS_Update(brick->particleSystem, dt);
+
+  if (PS_ShouldDestroy(brick->particleSystem)) {
+    UnloadParticleSystem(brick->particleSystem);
+    brick->particleSystem = NULL;
+  }
 }
 
 void BricksDraw(void) {

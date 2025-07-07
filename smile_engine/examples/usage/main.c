@@ -18,20 +18,26 @@
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-extern State state_one;
+extern State state_example;
 
 // --------------------------------------------------
-// Functions
+// Program main entry point
 // --------------------------------------------------
+bool is_running = true;
+float dt;
+
 int main(void) {
-  sm_change_state(&state_one, NULL);
-  float dt;
-  bool is_running = true;
+  SM_ChangeState(&state_example, NULL);
+
   while (is_running) {
     // Get dt
-    sm_update(dt);
-    sm_draw();
+    SM_Update(dt);
+    SM_Draw();
   }
 
   return 0;
 }
+
+// --------------------------------------------------
+// Functions
+// --------------------------------------------------

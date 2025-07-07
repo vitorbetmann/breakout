@@ -1,6 +1,7 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
+#include "Smile.h"
 #include "_Dependencies.h"
 
 // --------------------------------------------------
@@ -35,7 +36,7 @@ void state_serve_enter(void *args) { ball.pos.y = paddle.pos.y - ball.size; }
 
 void state_serve_update(float dt) {
   if (IsKeyPressed(KEY_ENTER)) {
-    sm_change_state(&statePlay, NULL);
+    SM_ChangeState(&statePlay, NULL);
   }
 
   PaddleUpdate(dt);
