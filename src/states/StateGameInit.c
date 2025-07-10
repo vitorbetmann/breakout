@@ -7,6 +7,7 @@
 #include "Smile.h"
 #include "_Constants.h"
 #include "states/StateServe.h"
+#include <stdlib.h>
 
 // --------------------------------------------------
 // Variables
@@ -18,7 +19,7 @@ State stateGameInit = {.id = "game init",
                        .exit = NULL};
 extern int gHealth;
 extern int gScore;
-extern int currLevel;
+extern unsigned int currLevel;
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
@@ -30,5 +31,14 @@ void state_game_init_enter(void *args) {
   }
   MapCreate(currLevel);
 
-  SM_ChangeState(&stateServe, NULL);
+  StateServeArgs stateServeArgs = {.brickCount = 0};
+  for (int i = 0; i < bricksRow; i++) {
+    for (int j = 0; j < bricksCol; j++) {
+      if (bricks[i][j] && bricks[i][j]->inPlay) {
+        stateServeArgs.brickCount++;
+      }
+    }
+  }
+
+  SM_ChangeState(&stateServe, &stateServeArgs);
 }

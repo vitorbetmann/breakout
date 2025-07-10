@@ -3,27 +3,30 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "../../include/smile.h"
-
-// --------------------------------------------------
-// Other defines
-// --------------------------------------------------
+#include "../../StateMachine.h"
 
 // --------------------------------------------------
 // Data types
 // --------------------------------------------------
+typedef struct {
+  int someIntData;
+  char *someCharData;
+} StateTwoArgs; /*
+                This is the data that will be passed to
+                SM_ChangeState, if its enter function
+                requires any arguments.
+                */
 
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void state_two_enter(void *args);
-void state_two_update(float dt);
-void state_two_draw(void);
-void state_two_exit(void);
+void StateTwoEnter(void *args);
+void StateTwoUpdate(float dt);
+void StateTwoDraw(void);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-extern State state_two;
+extern const State stateTwo;
 
 #endif

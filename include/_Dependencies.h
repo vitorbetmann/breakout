@@ -13,7 +13,6 @@
 
 // Proj specific (i.e. mine, mine, mine!)
 #include "LevelMaker.h"
-#include "ParticleSystem.h"
 #include "Smile.h"
 #include "_Constants.h"
 #include "_Util.h"

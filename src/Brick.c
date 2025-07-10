@@ -1,10 +1,8 @@
-// TODO raylib has a LERP function
-
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
 #include "Brick.h"
-#include "ParticleSystem.h"
+#include "Smile.h"
 #include "_Util.h"
 #include "raylib.h"
 #include "stdio.h"
@@ -118,7 +116,7 @@ void BrickUpdate(Brick *brick, float dt) {
   PS_Update(brick->particleSystem, dt);
 
   if (PS_ShouldDestroy(brick->particleSystem)) {
-    UnloadParticleSystem(brick->particleSystem);
+    PS_Unload(brick->particleSystem);
     brick->particleSystem = NULL;
   }
 }
@@ -131,6 +129,13 @@ void BricksDraw(void) {
       }
     }
   }
+  for (int i = 0; i < bricksRow; i++) {
+    for (int j = 0; j < bricksCol; j++) {
+      if (bricks[i][j] && bricks[i][j]->particleSystem) {
+        PS_Draw(bricks[i][j]->particleSystem);
+      }
+    }
+  }
 }
 
 void BrickDraw(Brick *brick) {
@@ -138,10 +143,6 @@ void BrickDraw(Brick *brick) {
   if (brick->inPlay) {
     DrawTexturePro(*brick->texture, *brick->textureRect, brick->hitBox,
                    (Vector2){0, 0}, 0, WHITE);
-  }
-
-  if (brick->particleSystem) {
-    PS_Draw(brick->particleSystem);
   }
 }
 

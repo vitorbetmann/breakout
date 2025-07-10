@@ -1,9 +1,14 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
+#include "states/StatePlay.h"
 #include "LevelMaker.h"
 #include "Smile.h"
 #include "_Dependencies.h"
+#include "_Util.h"
+#include "raylib.h"
+#include "states/StateServe.h"
+#include "states/StateVictory.h"
 
 // --------------------------------------------------
 // Data types
@@ -14,7 +19,7 @@ static const char *const PAUSE_TEXT = "PAUSE";
 // Prototypes
 // --------------------------------------------------
 void CheckPaddleCollision(void);
-bool CheckBallBrickCollision(void);
+bool IsBallCollidingWithBrick(void);
 void BricksUpdate(float dt);
 void PauseTextDraw(void);
 
@@ -22,9 +27,9 @@ void PauseTextDraw(void);
 // Variables
 // --------------------------------------------------
 State statePlay = {.id = "play",
-                   .enter = NULL,
-                   .update = state_play_update,
-                   .draw = state_play_draw,
+                   .enter = StatePlayEnter,
+                   .update = StatePlayUpdate,
+                   .draw = StatePlayDraw,
                    .exit = NULL};
 
 bool isPaused = false;
@@ -34,11 +39,18 @@ extern Paddle paddle;
 extern Brick ***bricks;
 extern int gScore;
 extern int gHealth;
+static StatePlayArgs statePlayArgs;
+static StateServeArgs stateServeArgs;
 
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
-void state_play_update(float dt) {
+void StatePlayEnter(void *args) {
+  StatePlayArgs *temp = (StatePlayArgs *)args;
+  statePlayArgs.brickCount = temp->brickCount;
+}
+
+void StatePlayUpdate(float dt) {
   if (IsKeyPressed(KEY_SPACE)) {
     isPaused = !isPaused;
 
@@ -52,7 +64,10 @@ void state_play_update(float dt) {
     BricksUpdate(dt);
 
     CheckPaddleCollision();
-    CheckBallBrickCollision();
+    if (IsBallCollidingWithBrick() && statePlayArgs.brickCount == 0) {
+      PlaySound(*((Sound *)TableGet(gSounds, "victory")));
+      SM_ChangeState(&stateVictory, NULL);
+    }
 
     if (ball.pos.y > VIRTUAL_HEIGHT) {
       gHealth--;
@@ -62,7 +77,8 @@ void state_play_update(float dt) {
         MapUnload();
         SM_ChangeState(&stateGameOver, NULL);
       } else {
-        SM_ChangeState(&stateServe, NULL);
+        stateServeArgs.brickCount = statePlayArgs.brickCount;
+        SM_ChangeState(&stateServe, &stateServeArgs);
       }
     }
   }
@@ -98,10 +114,9 @@ void CheckPaddleCollision(void) {
   }
 }
 
-bool CheckBallBrickCollision(void) {
-  bool hasCollided = false;
-  for (int i = 0; i < bricksRow && !hasCollided; i++) {
-    for (int j = 0; j < bricksCol && !hasCollided; j++) {
+bool IsBallCollidingWithBrick(void) {
+  for (int i = 0; i < bricksRow; i++) {
+    for (int j = 0; j < bricksCol; j++) {
       Brick *temp = bricks[i][j];
       if (!temp) {
         continue;
@@ -137,15 +152,18 @@ bool CheckBallBrickCollision(void) {
         }
 
         BrickHit(temp);
+        if (!temp->inPlay) {
+          statePlayArgs.brickCount--;
+        }
 
-        hasCollided = true;
+        return true;
       }
     }
   }
   return false;
 }
 
-void state_play_draw(void) {
+void StatePlayDraw(void) {
   PaddleDraw();
   BallDraw();
   BricksDraw();

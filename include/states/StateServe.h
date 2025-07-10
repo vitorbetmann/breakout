@@ -6,6 +6,13 @@
 #include "Smile.h"
 
 // --------------------------------------------------
+// Data types
+// --------------------------------------------------
+typedef struct {
+  unsigned int brickCount;
+} StateServeArgs;
+
+// --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
 void state_serve_enter(void *args);

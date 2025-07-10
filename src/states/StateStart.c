@@ -6,6 +6,9 @@
 #include "Smile.h"
 #include "_Dependencies.h"
 #include "raylib.h"
+#include "states/StateGameInit.h"
+#include "states/StateServe.h"
+#include "states/StateVictory.h"
 
 // --------------------------------------------------
 // Data types
@@ -27,6 +30,7 @@ State stateStart = {.id = "start",
                     .exit = NULL};
 
 extern Font gFont;
+static StateServeArgs stateServeArgs;
 
 // --------------------------------------------------
 // Functions

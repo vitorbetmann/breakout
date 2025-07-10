@@ -27,6 +27,7 @@ typedef struct {
 // Prototypes
 // --------------------------------------------------
 void BallInit(int skin);
+void BallReset(void);
 void BallUpdate(float dt);
 void BallDraw(void);
 bool HasBallCollided(Rectangle target);

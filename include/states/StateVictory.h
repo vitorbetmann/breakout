@@ -1,27 +1,20 @@
-#ifndef STATE_PLAY_H
-#define STATE_PLAY_H
+#ifndef STATE_VICTORY_H
+#define STATE_VICTORY_H
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
 #include "Smile.h"
 
 // --------------------------------------------------
-// Data types
-// --------------------------------------------------
-typedef struct {
-  unsigned int brickCount;
-} StatePlayArgs;
-
-// --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void StatePlayEnter(void *args);
-void StatePlayUpdate(float dt);
-void StatePlayDraw(void);
+void StateVictoryEnter(void *args);
+void StateVictoryUpdate(float dt);
+void StateVictoryDraw(void);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-extern State statePlay;
+extern const State stateVictory;
 
 #endif
