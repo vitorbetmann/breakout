@@ -12,7 +12,7 @@
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-const State stateVictory = {.id = "example",
+const State stateVictory = {.id = "victory",
                             .enter = NULL,
                             .update = StateVictoryUpdate,
                             .draw = StateVictoryDraw,

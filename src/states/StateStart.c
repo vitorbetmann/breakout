@@ -1,14 +1,7 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "Ball.h"
-#include "Paddle.h"
-#include "Smile.h"
 #include "_Dependencies.h"
-#include "raylib.h"
-#include "states/StateGameInit.h"
-#include "states/StateServe.h"
-#include "states/StateVictory.h"
 
 // --------------------------------------------------
 // Data types
@@ -52,7 +45,7 @@ void state_start_update(float dt) {
       SM_ChangeState(&stateGameInit, NULL);
       break;
     case HIGH_SCORE:
-      // TODO handle this later
+      SM_ChangeState(&stateHighScore, NULL);
       break;
     }
   }

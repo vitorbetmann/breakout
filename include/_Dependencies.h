@@ -18,11 +18,15 @@
 #include "_Util.h"
 
 // States
+#include "states/StateEnterHighScore.h"
 #include "states/StateGameInit.h"
 #include "states/StateGameOver.h"
+#include "states/StateHighScore.h"
+#include "states/StatePaddleSelect.h"
 #include "states/StatePlay.h"
 #include "states/StateServe.h"
 #include "states/StateStart.h"
+#include "states/StateVictory.h"
 
 // Other headers
 #include "Ball.h"
