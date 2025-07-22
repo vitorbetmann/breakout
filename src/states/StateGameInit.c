@@ -8,7 +8,7 @@
 // --------------------------------------------------
 extern int gHealth;
 extern int gScore;
-extern unsigned int currLevel;
+extern int currLevel;
 
 // --------------------------------------------------
 // Functions

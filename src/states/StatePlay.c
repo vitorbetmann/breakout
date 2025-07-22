@@ -20,13 +20,14 @@ void PauseTextDraw(void);
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-bool isPaused = false;
 extern Font gFont;
 extern Ball ball;
 extern Paddle paddle;
 extern Brick ***bricks;
 extern int gScore;
 extern int gHealth;
+
+static bool isPaused;
 static StatePlayArgs statePlayArgs;
 static StateServeArgs stateServeArgs;
 

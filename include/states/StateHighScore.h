@@ -16,6 +16,7 @@
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
+
 void StateHighScoreEnter(void *args);
 void StateHighScoreUpdate(float dt);
 void StateHighScoreDraw(void);
@@ -24,6 +25,5 @@ void StateHighScoreExit(void);
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-extern const State stateHighScore;
 
 #endif

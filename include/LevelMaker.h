@@ -6,6 +6,6 @@
 void MapCreate(int level);
 void MapUnload(void);
 
-extern unsigned int currLevel;
+extern int currLevel;
 
 #endif

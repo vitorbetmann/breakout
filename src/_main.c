@@ -56,7 +56,7 @@ float dt;
 int gHealth = MAX_HEALTH;
 int gScore;
 
-unsigned int currLevel = 1;
+int currLevel = 1;
 
 // --------------------------------------------------
 // Program main entry point
@@ -115,8 +115,8 @@ void InitStates(void) {
   // SM_RegisterState("enter high score", StateEnterHighScoreEnter,
   //                  StateEnterHighScoreUpdate, StateEnterHighScoreDraw,
   //                  StateEnterHighScoreExit);
-  // SM_RegisterState("high score", StateHighScoreEnter, StateHighScoreUpdate,
-  //              StateHighScoreDraw, StateHighScoreExit);
+  SM_RegisterState("high score", StateHighScoreEnter, StateHighScoreUpdate,
+                   StateHighScoreDraw, StateHighScoreExit);
   SM_RegisterState("game over", NULL, StateGameOverUpdate, StateGameOverDraw,
                    NULL);
 }

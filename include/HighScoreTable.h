@@ -1,27 +1,40 @@
-#ifndef STATE_PLAY_H
-#define STATE_PLAY_H
+#ifndef HIGH_SCORE_TABLE_H
+#define HIGH_SCORE_TABLE_H
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "Smile.h"
+
+// --------------------------------------------------
+// Other defines
+// --------------------------------------------------
+#define NAME_LEN 8
+#define MAX_SCORES 10
+#define BLANK_NAME "---"
 
 // --------------------------------------------------
 // Data types
 // --------------------------------------------------
+
 typedef struct {
-  int brickCount;
-} StatePlayArgs;
+  char *name;
+  int score;
+} PlayerData;
+
+typedef struct {
+  PlayerData highScores[MAX_SCORES];
+  int highScoresCount;
+  bool isLoaded;
+} HighScoreTable;
 
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void StatePlayEnter(void *args);
-void StatePlayUpdate(float dt);
-void StatePlayDraw(void);
+
+PlayerData GetPlayerData(int pos);
+void InsertScore(PlayerData pd);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-extern State statePlay;
 
 #endif

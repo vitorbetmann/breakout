@@ -9,7 +9,7 @@
 // Data types
 // --------------------------------------------------
 typedef struct {
-  unsigned int brickCount;
+  int brickCount;
 } StateServeArgs;
 
 // --------------------------------------------------

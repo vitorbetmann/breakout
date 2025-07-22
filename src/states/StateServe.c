@@ -21,7 +21,7 @@ int score;
 // Variables
 // --------------------------------------------------
 extern Font gFont;
-static unsigned int brickCount;
+static int brickCount;
 const char *const PROMPT_TO_PLAY = "Press Enter to serve!";
 // --------------------------------------------------
 // Functions
