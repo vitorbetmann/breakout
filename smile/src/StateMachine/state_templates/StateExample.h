@@ -1,32 +1,27 @@
-#ifndef STATE_TWO_H
-#define STATE_TWO_H
+#ifndef STATE_EXAMPLE_H
+#define STATE_EXAMPLE_H
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "../../StateMachine.h"
+
+// --------------------------------------------------
+// Other defines
+// --------------------------------------------------
 
 // --------------------------------------------------
 // Data types
 // --------------------------------------------------
-typedef struct {
-  int someIntData;
-  char *someCharData;
-} StateTwoArgs; /*
-                This is the data that will be passed to
-                SM_ChangeState, if its enter function
-                requires any arguments.
-                */
 
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void StateTwoEnter(void *args);
-void StateTwoUpdate(float dt);
-void StateTwoDraw(void);
+void StateExampleEnter(void *args);
+void StateExampleUpdate(float dt);
+void StateExampleDraw(void);
+void StateExampleExit(void);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-extern const State stateTwo;
 
 #endif

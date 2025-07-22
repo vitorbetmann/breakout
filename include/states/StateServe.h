@@ -15,10 +15,9 @@ typedef struct {
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void state_serve_enter(void *args);
-void state_serve_update(float dt);
-void state_serve_draw(void);
-void state_serve_exit(void);
+void StateServeEnter(void *args);
+void StateServeUpdate(float dt);
+void StateServeDraw(void);
 
 // --------------------------------------------------
 // Variables

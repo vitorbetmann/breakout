@@ -18,11 +18,6 @@
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-const State stateHighScore = {.id = "high score",
-                              .enter = StateHighScoreEnter,
-                              .update = StateHighScoreUpdate,
-                              .draw = StateHighScoreDraw,
-                              .exit = StateHighScoreExit};
 
 // --------------------------------------------------
 // Functions

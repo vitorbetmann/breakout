@@ -19,9 +19,12 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 # ------------
 # Raylib setup
 # ------------
-set(RAYLIB_DIR "$ENV{HOME}/_dev/raylib")
-set(RAYLIB_SRC_DIR "${RAYLIB_DIR}/src")
-set(RAYLIB_LIB_PATH "${RAYLIB_SRC_DIR}") # Defaults to native build
+# set(RAYLIB_DIR "$ENV{HOME}/_dev/raylib")
+# set(RAYLIB_SRC_DIR "${RAYLIB_DIR}/src")
+# set(RAYLIB_LIB_PATH "${RAYLIB_SRC_DIR}")
+set(RAYLIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/smile/external/raylib")
+set(RAYLIB_SRC_DIR "${RAYLIB_DIR}/include")
+set(RAYLIB_LIB_PATH "${RAYLIB_DIR}")
 
 # -------------------------
 # Platform specific configs
@@ -60,9 +63,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE "raylib")
 # SMILE Engine
 # -------------------------------------------- 
 target_include_directories(${PROJECT_NAME} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/smile_engine/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/smile/include
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/smile_engine/build/libsmile.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/smile/build/libsmile.a
 )

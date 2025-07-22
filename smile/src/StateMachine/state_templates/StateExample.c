@@ -1,12 +1,10 @@
-#ifndef STATE_EXAMPLE_H
-#define STATE_EXAMPLE_H
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "../../StateMachine.h"
+#include "StateExample.h"
 
 // --------------------------------------------------
-// Other defines
+// Defines
 // --------------------------------------------------
 
 // --------------------------------------------------
@@ -16,14 +14,26 @@
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void StateExampleEnter(void *args);
-void StateExampleUpdate(float dt);
-void StateExampleDraw(void);
-void StateExampleExit(void);
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-extern const State stateExample;
 
-#endif
+// --------------------------------------------------
+// Functions
+// --------------------------------------------------
+void StateExampleEnter(void *args) {
+  // TODO
+}
+
+void StateExampleUpdate(float dt) {
+  // TODO
+}
+
+void StateExampleDraw(void) {
+  // TODO
+}
+
+void StateExampleExit(void) {
+  // TODO
+}

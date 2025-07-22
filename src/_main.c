@@ -3,8 +3,16 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "Smile.h"
+#include "StateMachine.h"
 #include "_Dependencies.h"
+#include "states/StateGameInit.h"
+#include "states/StateGameOver.h"
+#include "states/StateHighScore.h"
+#include "states/StatePaddleSelect.h"
+#include "states/StatePlay.h"
+#include "states/StateServe.h"
+#include "states/StateStart.h"
+#include "states/StateVictory.h"
 
 // --------------------------------------------------
 // Data types
@@ -15,6 +23,7 @@ typedef enum { FULL, EMPTY } HeartState;
 // Prototypes
 // --------------------------------------------------
 void Init(void);
+void InitStates(void);
 void LoadFonts(void);
 void LoadTextures(void);
 void LoadAndStoreTextures(const char *key, const char *path);
@@ -55,7 +64,7 @@ unsigned int currLevel = 1;
 int main(void) {
   Init();
 
-  SM_ChangeState(&stateStart, NULL);
+  SM_ChangeStateTo("start", NULL);
   while (!WindowShouldClose()) {
     dt = GetFrameTime();
     UpdateAll(dt);
@@ -76,7 +85,7 @@ void Init(void) {
 
   vScreen = LoadRenderTexture(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 
-  SetTargetFPS(TARGET_FPS);
+  SetTargetFPS(30);
 
   SetRandomSeed(time(NULL));
 
@@ -85,6 +94,31 @@ void Init(void) {
   LoadSounds();
 
   GenerateAllQuads(*(Texture2D *)(TableGet(gTextures, "main")));
+
+  SM_Init();
+
+  InitStates();
+}
+
+void InitStates(void) {
+  SM_RegisterState("start", NULL, StateStartUpdate, StateStartDraw, NULL);
+  //  SM_RegisterState("paddle select", StatePaddleSelectEnter,
+  //                StatePaddleSelectUpdate, StatePaddleSelectDraw,
+  //             StatePaddleSelectExit);
+  SM_RegisterState("init", StateInitEnter, NULL, NULL, NULL);
+  SM_RegisterState("serve", StateServeEnter, StateServeUpdate, StateServeDraw,
+                   NULL);
+  SM_RegisterState("play", StatePlayEnter, StatePlayUpdate, StatePlayDraw,
+                   NULL);
+  // SM_RegisterState("victory", StateVictoryEnter, StateVictoryUpdate,
+  //              StateVictoryDraw, NULL);
+  // SM_RegisterState("enter high score", StateEnterHighScoreEnter,
+  //                  StateEnterHighScoreUpdate, StateEnterHighScoreDraw,
+  //                  StateEnterHighScoreExit);
+  // SM_RegisterState("high score", StateHighScoreEnter, StateHighScoreUpdate,
+  //              StateHighScoreDraw, StateHighScoreExit);
+  SM_RegisterState("game over", NULL, StateGameOverUpdate, StateGameOverDraw,
+                   NULL);
 }
 
 void LoadFonts(void) { gFont = LoadFont("./assets/fonts/font.ttf"); }

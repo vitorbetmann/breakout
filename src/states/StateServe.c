@@ -1,13 +1,7 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "states/StateServe.h"
-#include "Brick.h"
-#include "Smile.h"
 #include "_Dependencies.h"
-#include "raylib.h"
-#include "states/StatePlay.h"
-#include <stdio.h>
 
 // --------------------------------------------------
 // Defines
@@ -26,18 +20,13 @@ int score;
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-State stateServe = {.id = "serve",
-                    .enter = state_serve_enter,
-                    .update = state_serve_update,
-                    .draw = state_serve_draw,
-                    .exit = NULL};
-const char *const PROMPT_TO_PLAY = "Press Enter to serve!";
 extern Font gFont;
 static unsigned int brickCount;
+const char *const PROMPT_TO_PLAY = "Press Enter to serve!";
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
-void state_serve_enter(void *args) {
+void StateServeEnter(void *args) {
   BallReset();
   ball.pos.y = paddle.pos.y - ball.size;
 
@@ -45,17 +34,17 @@ void state_serve_enter(void *args) {
   brickCount = temp->brickCount;
 }
 
-void state_serve_update(float dt) {
+void StateServeUpdate(float dt) {
   if (IsKeyPressed(KEY_ENTER)) {
     StatePlayArgs statePlayArgs = {.brickCount = brickCount};
-    SM_ChangeState(&statePlay, &statePlayArgs);
+    SM_ChangeStateTo("play", &statePlayArgs);
   }
 
   PaddleUpdate(dt);
   ball.pos.x = paddle.pos.x + (paddle.width - ball.size) / 2.0;
 }
 
-void state_serve_draw(void) {
+void StateServeDraw(void) {
 
   // Draw "Level {number}"
   char buffer[16];

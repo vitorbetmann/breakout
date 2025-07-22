@@ -18,11 +18,6 @@
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-const State statePaddleSelect = {.id = "paddle select",
-                                 .enter = StatePaddleSelectEnter,
-                                 .update = StatePaddleSelectUpdate,
-                                 .draw = StatePaddleSelectDraw,
-                                 .exit = StatePaddleSelectExit};
 
 // --------------------------------------------------
 // Functions

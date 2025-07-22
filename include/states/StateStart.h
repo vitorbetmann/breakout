@@ -8,8 +8,8 @@
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void state_start_update(float dt);
-void state_start_draw(void);
+void StateStartUpdate(float dt);
+void StateStartDraw(void);
 
 // --------------------------------------------------
 // Variables

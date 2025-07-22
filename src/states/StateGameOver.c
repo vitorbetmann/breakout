@@ -1,34 +1,24 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "Smile.h"
-#include "_Constants.h"
 #include "_Dependencies.h"
-#include "raylib.h"
-#include "states/StateGameInit.h"
-#include <stdio.h>
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-State stateGameOver = {.id = "game over",
-                       .enter = NULL,
-                       .update = state_game_over_update,
-                       .draw = state_game_over_draw,
-                       .exit = NULL};
 extern Font gFont;
 extern int gScore;
 
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
-void state_game_over_update(float dt) {
+void StateGameOverUpdate(float dt) {
   if (IsKeyPressed(KEY_ENTER)) {
-    SM_ChangeState(&stateGameInit, NULL);
+    SM_ChangeStateTo("init", NULL);
   }
 }
 
-void state_game_over_draw(void) {
+void StateGameOverDraw(void) {
   Vector2 textSize = MeasureTextEx(gFont, GAME_OVER_TEXT, FONT_LARGE, 0);
   Vector2 textPos = {(VIRTUAL_WIDTH - textSize.x) / 2.0, VIRTUAL_HEIGHT / 3.0};
   DrawTextEx(gFont, GAME_OVER_TEXT, textPos, FONT_LARGE, 0, WHITE);

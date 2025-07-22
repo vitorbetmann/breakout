@@ -1,32 +1,21 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "states/StateVictory.h"
-#include "LevelMaker.h"
-#include "_Constants.h"
-#include "raylib.h"
-#include "states/StateGameInit.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "_Dependencies.h"
 
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-const State stateVictory = {.id = "victory",
-                            .enter = NULL,
-                            .update = StateVictoryUpdate,
-                            .draw = StateVictoryDraw,
-                            .exit = NULL};
-
 extern unsigned int currLevel;
 extern Font gFont;
+
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
 void StateVictoryUpdate(float dt) {
   if (IsKeyPressed(KEY_ENTER)) {
     currLevel++;
-    SM_ChangeState(&stateGameInit, NULL);
+    SM_ChangeStateTo("init", NULL);
   }
 }
 

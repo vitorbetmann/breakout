@@ -1,14 +1,8 @@
 // --------------------------------------------------
 // Includes
 // --------------------------------------------------
-#include "states/StatePlay.h"
-#include "LevelMaker.h"
-#include "Smile.h"
+
 #include "_Dependencies.h"
-#include "_Util.h"
-#include "raylib.h"
-#include "states/StateServe.h"
-#include "states/StateVictory.h"
 
 // --------------------------------------------------
 // Data types
@@ -26,12 +20,6 @@ void PauseTextDraw(void);
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-State statePlay = {.id = "play",
-                   .enter = StatePlayEnter,
-                   .update = StatePlayUpdate,
-                   .draw = StatePlayDraw,
-                   .exit = NULL};
-
 bool isPaused = false;
 extern Font gFont;
 extern Ball ball;
@@ -66,7 +54,7 @@ void StatePlayUpdate(float dt) {
     CheckPaddleCollision();
     if (IsBallCollidingWithBrick() && statePlayArgs.brickCount == 0) {
       PlaySound(*((Sound *)TableGet(gSounds, "victory")));
-      SM_ChangeState(&stateVictory, NULL);
+      SM_ChangeStateTo("victory", NULL);
     }
 
     if (ball.pos.y > VIRTUAL_HEIGHT) {
@@ -75,10 +63,10 @@ void StatePlayUpdate(float dt) {
 
       if (gHealth == 0) {
         MapUnload();
-        SM_ChangeState(&stateGameOver, NULL);
+        SM_ChangeStateTo("game over", NULL);
       } else {
         stateServeArgs.brickCount = statePlayArgs.brickCount;
-        SM_ChangeState(&stateServe, &stateServeArgs);
+        SM_ChangeStateTo("serve", &stateServeArgs);
       }
     }
   }

@@ -8,8 +8,8 @@
 // --------------------------------------------------
 // Prototypes
 // --------------------------------------------------
-void state_game_over_update(float dt);
-void state_game_over_draw(void);
+void StateGameOverUpdate(float dt);
+void StateGameOverDraw(void);
 
 // --------------------------------------------------
 // Variables

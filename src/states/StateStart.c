@@ -14,21 +14,14 @@ typedef enum {
 // --------------------------------------------------
 // Variables
 // --------------------------------------------------
-static int highlighted = START;
-
-State stateStart = {.id = "start",
-                    .enter = NULL,
-                    .update = state_start_update,
-                    .draw = state_start_draw,
-                    .exit = NULL};
-
 extern Font gFont;
+static int highlighted = START;
 static StateServeArgs stateServeArgs;
 
 // --------------------------------------------------
 // Functions
 // --------------------------------------------------
-void state_start_update(float dt) {
+void StateStartUpdate(float dt) {
   if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_DOWN)) {
     highlighted++;
     highlighted %= 2;
@@ -42,16 +35,16 @@ void state_start_update(float dt) {
     case START:
       PaddleInit();
       BallInit(GetRandomValue(0, 6));
-      SM_ChangeState(&stateGameInit, NULL);
+      SM_ChangeStateTo("init", NULL);
       break;
     case HIGH_SCORE:
-      SM_ChangeState(&stateHighScore, NULL);
+      SM_ChangeStateTo("high score", NULL);
       break;
     }
   }
 }
 
-void state_start_draw(void) {
+void StateStartDraw(void) {
   Vector2 textLength = MeasureTextEx(gFont, GAME_TITLE, FONT_LARGE, 0);
   Vector2 textPos = {0};
   textPos.x = (VIRTUAL_WIDTH - textLength.x) / 2.0;
